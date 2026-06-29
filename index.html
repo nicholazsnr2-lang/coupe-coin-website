@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>COUPE - Own the Culture. Build the Future.</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Official Solana Web3 Production Bundle CDN -->
+    <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
     <style>
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
@@ -27,7 +30,9 @@
             <a href="#" id="x-link-nav" target="_blank" class="text-neutral-400 hover:text-amber-400 font-bold text-sm transition-colors">X (Twitter)</a>
             <a href="https://t.me/COUPEcoin" target="_blank" class="text-neutral-400 hover:text-amber-400 font-bold text-sm transition-colors">Telegram</a>
             <a href="https://discord.gg/T6sbCpFWk" target="_blank" class="text-neutral-400 hover:text-amber-400 font-bold text-sm transition-colors">Discord</a>
-            <button onclick="alert('Wallet connection feature is coming last!')" class="bg-gradient-to-r from-amber-400 to-yellow-600 hover:from-amber-500 hover:to-yellow-700 text-black px-6 py-2 rounded-full font-bold shadow-lg shadow-amber-500/10 transition-all text-sm cursor-pointer">
+            
+            <!-- Live Web3 Button -->
+            <button id="connectBtn" onclick="connectWallet()" class="bg-gradient-to-r from-amber-400 to-yellow-600 hover:from-amber-500 hover:to-yellow-700 text-black px-6 py-2 rounded-full font-bold shadow-lg shadow-amber-500/10 transition-all text-sm cursor-pointer">
                 Connect Wallet
             </button>
         </div>
@@ -76,7 +81,7 @@
                 <span class="text-neutral-400 text-sm">1 SOL = 10,000,000 $COUPE</span>
             </div>
 
-            <!-- Professional Live Timer -->
+            <!-- Live Timer -->
             <div class="bg-neutral-900/50 border border-neutral-900/80 rounded-2xl p-3 mb-6 flex justify-around text-center">
                 <div>
                     <div id="days" class="text-xl font-black text-white">02</div>
@@ -124,34 +129,36 @@
                         <span class="absolute right-4 top-3.5 font-bold text-sm text-neutral-600 font-black">COUPE</span>
                     </div>
                 </div>
-                <button onclick="alert('Wallet connection configuration step is scheduled next!')" class="w-full bg-gradient-to-r from-amber-400 to-yellow-600 hover:from-amber-500 hover:to-yellow-700 text-black py-4 rounded-xl font-bold transition-all text-md mt-2 cursor-pointer shadow-lg shadow-amber-500/5">
+                
+                <!-- Action Button tied to Javascript Core Engine -->
+                <button id="buyBtn" onclick="executePresaleTransaction()" class="w-full bg-gradient-to-r from-amber-400 to-yellow-600 hover:from-amber-500 hover:to-yellow-700 text-black py-4 rounded-xl font-bold transition-all text-md mt-2 cursor-pointer shadow-lg shadow-amber-500/5">
                     Buy $COUPE
                 </button>
             </div>
         </div>
     </main>
 
-    <!-- Professional Step-by-Step "How To Buy" Guide -->
+    <!-- How To Buy Guide -->
     <section class="max-w-6xl mx-auto px-4 py-16 border-t border-neutral-900">
         <h3 class="text-3xl font-black text-white text-center mb-2">🛒 How to Join the Presale</h3>
         <p class="text-neutral-500 text-center mb-12 max-w-md mx-auto">Follow these simple steps to acquire your $COUPE tokens safely.</p>
         <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-6 text-left">
-            <div class="bg-neutral-950 border border-neutral-900 p-6 rounded-2xl relative">
+            <div class="bg-neutral-950 border border-neutral-900 p-6 rounded-2xl">
                 <div class="text-amber-400 font-black text-2xl mb-3">01</div>
                 <h4 class="text-white font-bold text-md mb-2">Create a Wallet</h4>
                 <p class="text-neutral-400 text-xs leading-relaxed">Download Phantom or Solflare wallet extensions from the official store for desktop or mobile apps.</p>
             </div>
-            <div class="bg-neutral-950 border border-neutral-900 p-6 rounded-2xl relative">
+            <div class="bg-neutral-950 border border-neutral-900 p-6 rounded-2xl">
                 <div class="text-amber-400 font-black text-2xl mb-3">02</div>
                 <h4 class="text-white font-bold text-md mb-2">Secure Some SOL</h4>
-                <p class="text-neutral-400 text-xs leading-relaxed">Purchase Solana (SOL) on an exchange (like Binance or Coinbase) and transfer it directly to your newly created wallet address.</p>
+                <p class="text-neutral-400 text-xs leading-relaxed">Purchase Solana (SOL) on an exchange and transfer it directly to your newly created wallet address.</p>
             </div>
-            <div class="bg-neutral-950 border border-neutral-900 p-6 rounded-2xl relative">
+            <div class="bg-neutral-950 border border-neutral-900 p-6 rounded-2xl">
                 <div class="text-amber-400 font-black text-2xl mb-3">03</div>
                 <h4 class="text-white font-bold text-md mb-2">Connect to COUPE</h4>
                 <p class="text-neutral-400 text-xs leading-relaxed">Click the "Connect Wallet" button at the top of our page and authorize the app linkage cleanly.</p>
             </div>
-            <div class="bg-neutral-950 border border-neutral-900 p-6 rounded-2xl relative">
+            <div class="bg-neutral-950 border border-neutral-900 p-6 rounded-2xl">
                 <div class="text-amber-400 font-black text-2xl mb-3">04</div>
                 <h4 class="text-white font-bold text-md mb-2">Swap & Confirm</h4>
                 <p class="text-neutral-400 text-xs leading-relaxed">Enter your desired deposit amount of SOL, hit "Buy $COUPE," and approve the instant blockchain request prompt.</p>
@@ -159,12 +166,11 @@
         </div>
     </section>
 
-    <!-- Enhanced Tokenomics Breakdown Allocation Section -->
+    <!-- Tokenomics Breakdown Allocation Section -->
     <section class="max-w-6xl mx-auto px-4 py-16 border-t border-neutral-900 text-center">
         <h3 class="text-3xl font-black text-white mb-2">📊 $COUPE Tokenomics</h3>
         <p class="text-neutral-500 mb-12 max-w-md mx-auto">Engineered for community scaling and structural ecosystem stability.</p>
         
-        <!-- Metrics Cards -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
             <div class="bg-neutral-950 border border-neutral-900 p-6 rounded-2xl">
                 <div class="text-2xl font-black text-amber-400 mb-1">1 Billion</div>
@@ -184,7 +190,6 @@
             </div>
         </div>
 
-        <!-- Token Allocation Visual Bars -->
         <div class="max-w-xl mx-auto bg-neutral-950 border border-neutral-900 rounded-3xl p-6 text-left space-y-4 shadow-xl">
             <h4 class="text-white font-bold text-sm mb-4 tracking-wider uppercase">Supply Metrics Chart</h4>
             <div>
@@ -198,14 +203,6 @@
             <div>
                 <div class="flex justify-between text-xs mb-1.5 font-semibold text-neutral-400"><span>Liquidity Pools (DEX)</span><span class="text-orange-500">15%</span></div>
                 <div class="w-full bg-neutral-900 h-2 rounded-full overflow-hidden"><div class="bg-orange-500 h-full w-[15%]"></div></div>
-            </div>
-            <div>
-                <div class="flex justify-between text-xs mb-1.5 font-semibold text-neutral-400"><span>Marketing & AirDrops</span><span class="text-neutral-400">10%</span></div>
-                <div class="w-full bg-neutral-900 h-2 rounded-full overflow-hidden"><div class="bg-neutral-400 h-full w-[10%]"></div></div>
-            </div>
-            <div>
-                <div class="flex justify-between text-xs mb-1.5 font-semibold text-neutral-400"><span>Development Fund</span><span class="text-neutral-600">5%</span></div>
-                <div class="w-full bg-neutral-900 h-2 rounded-full overflow-hidden"><div class="bg-neutral-600 h-full w-[5%]"></div></div>
             </div>
         </div>
     </section>
@@ -221,39 +218,6 @@
                 </summary>
                 <p class="text-neutral-400 text-xs mt-3 leading-relaxed">COUPE is a community-driven cultural token launching on the Solana network, combining high viral speed with long-term ecosystem rewards.</p>
             </details>
-            <details class="group bg-neutral-950 border border-neutral-900 rounded-xl p-4 cursor-pointer">
-                <summary class="flex justify-between items-center font-bold text-white text-sm list-none">
-                    <span>When do I receive my presale tokens?</span>
-                    <span class="text-amber-400 transition-transform group-open:rotate-180">▼</span>
-                </summary>
-                <p class="text-neutral-400 text-xs mt-3 leading-relaxed">Your $COUPE tokens will be distributed automatically to your participating wallet right at the Token Generation Event (TGE) at launch.</p>
-            </details>
-        </div>
-    </section>
-
-    <!-- Core Pillars & Ecosystem Products Grid -->
-    <section class="max-w-6xl mx-auto px-4 py-16 border-t border-neutral-900">
-        <div class="grid md:grid-cols-2 gap-12">
-            <div>
-                <h3 class="text-2xl font-bold text-white mb-6 flex items-center gap-2">🛡️ Core Pillars</h3>
-                <ul class="space-y-3 text-left">
-                    <li class="bg-neutral-950 border border-neutral-900 p-4 rounded-xl flex items-center gap-3"><span class="text-amber-400">🔹</span> Community Ownership</li>
-                    <li class="bg-neutral-950 border border-neutral-900 p-4 rounded-xl flex items-center gap-3"><span class="text-amber-400">🔹</span> Sustainable Rewards</li>
-                    <li class="bg-neutral-950 border border-neutral-900 p-4 rounded-xl flex items-center gap-3"><span class="text-amber-400">🔹</span> Meme Culture with Real Utility</li>
-                    <li class="bg-neutral-950 border border-neutral-900 p-4 rounded-xl flex items-center gap-3"><span class="text-amber-400">🔹</span> Transparent Development</li>
-                </ul>
-            </div>
-            <div>
-                <h3 class="text-2xl font-bold text-white mb-6 flex items-center gap-2">📦 Ecosystem Products</h3>
-                <div class="grid grid-cols-2 gap-3 text-sm text-left">
-                    <div class="bg-neutral-950 border border-neutral-900 p-3 rounded-xl">• $COUPE Token (SPL)</div>
-                    <div class="bg-neutral-950 border border-neutral-900 p-3 rounded-xl">• COUPE Staking Vault</div>
-                    <div class="bg-neutral-950 border border-neutral-900 p-3 rounded-xl">• Community Governance (DAO)</div>
-                    <div class="bg-neutral-950 border border-neutral-900 p-3 rounded-xl">• Launchpad Access</div>
-                    <div class="bg-neutral-950 border border-neutral-900 p-3 rounded-xl">• Exclusive NFT Collection</div>
-                    <div class="bg-neutral-950 border border-neutral-900 p-3 rounded-xl">• Quest Platform</div>
-                </div>
-            </div>
         </div>
     </section>
 
@@ -265,15 +229,21 @@
             <a href="https://discord.gg/T6sbCpFWk" target="_blank" class="text-neutral-500 hover:text-amber-400 transition-colors">Discord</a>
         </div>
         <p class="text-white font-bold mb-2">COUPE: Own the Culture. Build the Future.</p>
-        <p class="text-neutral-500 text-xs max-w-md mx-auto">Built on Solana's lightning-fast and low-cost infrastructure for long-term sustainability.</p>
+        <p class="text-neutral-500 text-xs max-w-md mx-auto">Built on Solana's lightning-fast infrastructure for long-term sustainability.</p>
     </footer>
 
-    <!-- Scripts Block -->
+    <!-- Web3 Core Script Architecture Engine -->
     <script>
+        let userWalletAddress = null;
+        
+        // 🚨 SET TO null WHILE WALLET IS STILL BEING PREPARED. 
+        // Swap null out for a string address (e.g., "HN7x...9uPq") when you're ready to go live!
+        const TREASURY_WALLET = null; 
+        const rate = 10000000;
+
         // Mathematical Multiplier
         const solInput = document.getElementById('solInput');
         const coupeOutput = document.getElementById('coupeOutput');
-        const rate = 10000000;
 
         solInput.addEventListener('input', (e) => {
             const solValue = parseFloat(e.target.value);
@@ -291,12 +261,10 @@
         function updateCountdown() {
             const now = new Date().getTime();
             const difference = targetDate - now;
-
             const d = Math.floor(difference / (1000 * 60 * 60 * 24));
             const h = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const m = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
             const s = Math.floor((difference % (1000 * 60)) / 1000);
-
             document.getElementById('days').innerText = d < 10 ? '0' + d : d;
             document.getElementById('hours').innerText = h < 10 ? '0' + h : h;
             document.getElementById('minutes').innerText = m < 10 ? '0' + m : m;
@@ -304,7 +272,85 @@
         }
         setInterval(updateCountdown, 1000);
         updateCountdown();
-    </script>
 
+        // --- WEB3 HANDLERS ---
+        function getProvider() {
+            if ('solana' in window) {
+                const provider = window.solana;
+                if (provider.isPhantom) {
+                    return provider;
+                }
+            }
+            return null;
+        }
+
+        async function connectWallet() {
+            const provider = getProvider();
+            if (provider) {
+                try {
+                    const response = await provider.connect();
+                    userWalletAddress = response.publicKey.toString();
+                    
+                    const shortAddress = userWalletAddress.slice(0, 4) + "..." + userWalletAddress.slice(-4);
+                    document.getElementById('connectBtn').innerText = shortAddress;
+                    document.getElementById('connectBtn').classList.replace('bg-gradient-to-r', 'bg-neutral-900');
+                    document.getElementById('connectBtn').classList.add('text-amber-400', 'border', 'border-neutral-800');
+                    console.log("Wallet Connected: ", userWalletAddress);
+                } catch (err) {
+                    alert("Connection request cancelled.");
+                }
+            } else {
+                alert("Solana wallet extension not detected! Please open this page inside Phantom App or install the extension.");
+                window.open("https://phantom.app/", "_blank");
+            }
+        }
+
+        async function executePresaleTransaction() {
+            // Check if address is null first to give a beautiful upcoming alert
+            if (TREASURY_WALLET === null) {
+                alert("🚀 COUPE Presale Launching Soon! The purchase portal will open as soon as our official network pools go live. Stay tuned on Telegram/X!");
+                return;
+            }
+
+            if (!userWalletAddress) {
+                alert("Please connect your wallet using the button at the top right first!");
+                return;
+            }
+
+            const provider = getProvider();
+            const solAmountValue = parseFloat(solInput.value);
+
+            if (isNaN(solAmountValue) || solAmountValue <= 0) {
+                alert("Please enter a valid amount of SOL.");
+                return;
+            }
+
+            try {
+                const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('mainnet-beta'), 'confirmed');
+                const fromPubkey = new solanaWeb3.PublicKey(userWalletAddress);
+                const toPubkey = new solanaWeb3.PublicKey(TREASURY_WALLET);
+                const lamports = solAmountValue * solanaWeb3.LAMPORTS_PER_SOL;
+
+                const transaction = new solanaWeb3.Transaction().add(
+                    solanaWeb3.SystemProgram.transfer({
+                        fromPubkey: fromPubkey,
+                        toPubkey: toPubkey,
+                        lamports: lamports,
+                    })
+                );
+
+                let { blockhash } = await connection.getLatestBlockhash();
+                transaction.recentBlockhash = blockhash;
+                transaction.feePayer = fromPubkey;
+
+                alert(`Please sign the wallet transaction window to buy ${solAmountValue} SOL worth of $COUPE.`);
+                const { signature } = await provider.signAndSendTransaction(transaction);
+                alert(`Transaction Sent! Tx: ${signature}`);
+            } catch (error) {
+                console.error("Transaction Error: ", error);
+                alert("Transaction cancelled or failed.");
+            }
+        }
+    </script>
 </body>
 </html>
