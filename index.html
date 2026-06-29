@@ -3,404 +3,490 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>COUPE - Own the Culture. Build the Future.</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <!-- Official Solana Web3 Production Bundle CDN -->
-    <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
-    <style>
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-        .animate-float { animation: float 4s ease-in-out infinite; }
-    </style>
+    <title>Coupe DePIN Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body class="bg-[#0b0b0c] text-neutral-200 font-sans antialiased selection:bg-amber-500 selection:text-black">
+<body class="bg-black text-neutral-200 min-h-screen font-sans">
 
-    <!-- REGISTRATION GATE POPUP OVERLAY -->
-    <div id="registrationGate" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-neutral-950 border border-neutral-900 rounded-3xl p-6 md:p-8 max-w-md w-full text-center shadow-2xl">
-            <div class="flex justify-center mb-4">
-                <img src="$COUPE.png" alt="COUPE" class="w-16 h-16 rounded-full border-2 border-amber-500/40">
-            </div>
-            <h2 class="text-2xl font-black text-white mb-2">Welcome to $COUPE</h2>
-            <p class="text-xs text-neutral-400 mb-6">Register your account profile to access the ecosystem dashboard, track pre-allocated balances, and claim your invite link.</p>
-            
-            <form onsubmit="handleRegistration(event)" class="space-y-4 text-left">
-                <div>
-                    <label class="block text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-2">Choose a Username</label>
-                    <input id="regUsername" type="text" required placeholder="e.g. CryptoKing" class="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-4 py-3 text-white font-bold focus:outline-none focus:border-amber-500 transition-colors">
-                </div>
-                <button type="submit" class="w-full bg-gradient-to-r from-amber-400 to-yellow-600 hover:from-amber-500 hover:to-yellow-700 text-black py-3.5 rounded-xl font-bold transition-all text-sm cursor-pointer shadow-lg shadow-amber-500/10">
-                    Enter Dashboard
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Top Navigation Bar -->
-    <nav class="flex items-center justify-between px-6 py-4 max-w-6xl mx-auto border-b border-neutral-900">
-        <div class="flex items-center gap-3">
-            <img src="$COUPE.png" alt="COUPE Logo" class="w-10 h-10 rounded-full border border-amber-500/30">
-            <span class="font-black text-xl tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-yellow-600">$COUPE</span>
-        </div>
+    <!-- MAIN APP WRAPPER -->
+    <div id="appContainer" class="max-w-md mx-auto min-h-screen bg-neutral-950 flex flex-col relative border-x border-neutral-900 pb-24">
         
-        <div class="flex items-center gap-4">
-            <a href="#" target="_blank" class="text-neutral-400 hover:text-amber-400 font-bold text-sm transition-colors hidden sm:inline">X (Twitter)</a>
-            <a href="https://t.me/COUPEcoin" target="_blank" class="text-neutral-400 hover:text-amber-400 font-bold text-sm transition-colors hidden sm:inline">Telegram</a>
-            
-            <!-- Dynamic Navbar Wallet Button -->
-            <button id="connectBtn" onclick="connectWallet()" class="bg-gradient-to-r from-amber-400 to-yellow-600 hover:from-amber-500 hover:to-yellow-700 text-black px-6 py-2 rounded-full font-bold shadow-lg shadow-amber-500/10 transition-all text-sm cursor-pointer">
+        <!-- TOP NAVIGATION BAR -->
+        <header class="flex justify-between items-center px-4 py-4 border-b border-neutral-900 bg-neutral-950/80 backdrop-blur sticky top-0 z-40">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-amber-500 flex items-center justify-center font-black text-black tracking-tighter">C</div>
+                <div>
+                    <h1 class="text-sm font-bold text-neutral-100 tracking-tight leading-none">COUPE</h1>
+                    <span class="text-[10px] text-amber-500/80 font-mono tracking-widest uppercase">DePIN Hub</span>
+                </div>
+            </div>
+            <button id="connectBtn" onclick="toggleWalletModal(true)" class="bg-amber-500 hover:bg-amber-400 text-black font-bold text-xs px-4 py-2 rounded-xl transition-all shadow-md shadow-amber-500/10">
                 Connect Wallet
             </button>
+        </header>
+
+        <!-- LIVE NOTIFICATION FEED TICKER -->
+        <div class="bg-amber-500/5 border-b border-amber-500/10 px-4 py-2 flex items-center gap-2 overflow-hidden">
+            <span class="flex h-2 w-2 relative">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+            </span>
+            <div id="fomoTicker" class="text-[11px] text-amber-500/90 font-medium tracking-wide truncate">
+                Synchronizing decentralized global network matrices...
+            </div>
         </div>
-    </nav>
 
-    <!-- Contract Address Indicator -->
-    <div class="max-w-6xl mx-auto px-4 pt-6">
-        <div class="bg-neutral-950 border border-neutral-900 rounded-2xl p-3 flex flex-wrap items-center justify-between gap-3 max-w-xl mx-auto">
-            <span class="text-xs text-neutral-500 uppercase tracking-widest pl-2 font-bold">CA:</span>
-            <code class="text-xs text-amber-400/90 break-all font-mono">Updating Soon (Solana Mainnet)</code>
-            <button onclick="navigator.clipboard.writeText('Solana Address Coming Soon'); alert('Contract address will be copyable upon deployment!')" class="bg-neutral-900 hover:bg-neutral-800 text-neutral-300 text-xs px-3 py-1.5 rounded-xl transition-all cursor-pointer border border-neutral-800">
-                Copy
-            </button>
+        <!-- AUTHENTICATION LAYOUT BLOCK -->
+        <div id="authScreen" class="flex-1 flex flex-col justify-center px-6 py-12">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl font-black text-neutral-100 mb-2 tracking-tight">Claim Your Network Identity</h2>
+                <p class="text-xs text-neutral-400 max-w-xs mx-auto">Initialize a localized identity block to sync your miner node hardware telemetry.</p>
+            </div>
+            <div class="bg-neutral-900/40 border border-neutral-900 rounded-2xl p-5 backdrop-blur-sm">
+                <label class="block text-[11px] font-bold text-neutral-400 uppercase tracking-wider mb-2">Select Handle</label>
+                <input type="text" id="usernameInput" placeholder="e.g. NodeMiner_7" class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-amber-500/50 text-neutral-100 placeholder-neutral-600 transition-colors mb-4">
+                <button onclick="initializeSession()" class="w-full bg-amber-500 hover:bg-amber-400 text-black font-bold text-sm py-3.5 rounded-xl transition-all shadow-lg shadow-amber-500/10">
+                    Initialize Terminal Sync
+                </button>
+            </div>
         </div>
-    </div>
 
-    <!-- MAIN DASHBOARD CONTENT AREA -->
-    <main class="max-w-6xl mx-auto px-4 pt-12 pb-24 grid md:grid-cols-2 gap-12 items-start">
-        
-        <!-- Left Side: User Portfolio & Invite Metrics Dashboard -->
-        <div class="space-y-6">
-            <!-- Personalized Greeting & Intro Box -->
-            <div class="bg-neutral-950 border border-neutral-900 rounded-3xl p-6 shadow-xl">
-                <h1 class="text-3xl font-black text-white tracking-tight mb-2">
-                    Welcome back, <span id="dashGreeting" class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-yellow-500">Holder</span>!
-                </h1>
-                <p class="text-neutral-400 text-sm leading-relaxed">
-                    This is your premium allocation console. Track pre-sale distributions and manage your cultural footprints securely.
-                </p>
-            </div>
-
-            <!-- Pre-allocated Balance Module (No Pricing Displayed) -->
-            <div class="bg-gradient-to-b from-neutral-950 to-neutral-950/40 border border-neutral-900 rounded-3xl p-6 shadow-xl relative overflow-hidden">
-                <div class="absolute top-0 right-0 w-24 h-24 bg-amber-500/5 rounded-full blur-2xl"></div>
-                <div class="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-2">Pre-allocated Balance</div>
-                <div class="flex items-baseline gap-2">
-                    <span id="allocatedCoinBalance" class="text-4xl font-black text-white tracking-tight">5,000</span>
-                    <span class="text-amber-400 font-extrabold text-sm">$COUPE</span>
-                </div>
-                <p class="text-[11px] text-neutral-500 mt-2 italic border-t border-neutral-900 pt-2">
-                    🔒 These tokens are locked and reserved under your profile name for direct launch delivery.
-                </p>
-            </div>
-
-            <!-- Referral & Social Invite Link Hub -->
-            <div class="bg-neutral-950 border border-neutral-900 rounded-3xl p-6 shadow-xl space-y-4">
-                <div>
-                    <h4 class="text-white font-bold text-sm mb-1">📢 Community Invite Engine</h4>
-                    <p class="text-xs text-neutral-400">Share your custom referral configuration link. Network actions boost pool eligibility points.</p>
-                </div>
-                
-                <div class="flex gap-2">
-                    <input id="inviteLinkInput" type="text" readonly value="https://coupe.vercel.app/?ref=user" class="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-4 py-2.5 text-xs font-mono text-neutral-400 focus:outline-none">
-                    <button onclick="copyInviteLink()" class="bg-amber-500 hover:bg-amber-600 text-black font-bold text-xs px-4 rounded-xl transition-all cursor-pointer whitespace-nowrap">
-                        Copy Link
-                    </button>
-                </div>
-                
-                <div class="grid grid-cols-3 gap-2 pt-2 text-center text-xs">
-                    <div class="bg-neutral-900 border border-neutral-800 p-2.5 rounded-xl">
-                        <div class="text-white font-black text-sm" id="refCount">0</div>
-                        <div class="text-[10px] text-neutral-500 font-medium">Invites</div>
-                    </div>
-                    <div class="bg-neutral-900 border border-neutral-800 p-2.5 rounded-xl">
-                        <div class="text-amber-400 font-black text-sm">Tier 1</div>
-                        <div class="text-[10px] text-neutral-500 font-medium">Status</div>
-                    </div>
-                    <button onclick="alert('Social sharing matrix activated! Copy your link to pass cleanly to Twitter, Telegram, or Discord.')" class="bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 p-2.5 rounded-xl text-neutral-300 font-bold transition-colors cursor-pointer">
-                        Share All
-                    </button>
-                </div>
-            </div>
-
-            <!-- CLIENT DEMO ADMIN UTILITY PANEL (Hidden from public users unless toggled) -->
-            <div class="bg-amber-500/5 border border-amber-500/20 rounded-3xl p-6 shadow-xl space-y-4">
-                <div class="flex items-center justify-between">
-                    <h4 class="text-amber-400 font-black text-xs uppercase tracking-wider">🛠️ Client Live Testing Console</h4>
-                    <span class="text-[10px] bg-amber-500/20 text-amber-400 px-2 py-0.5 rounded-md font-mono font-bold">Admin Only</span>
-                </div>
-                <p class="text-[11px] text-neutral-400 leading-relaxed">
-                    Use these options during your customer presentations to manually simulate token drops or reset user memory variables cleanly.
-                </p>
-                <div class="grid grid-cols-2 gap-3">
+        <!-- DASHBOARD VIEW HUB CONTAINER -->
+        <div id="dashboardScreen" class="hidden px-4 py-6 space-y-6 flex-1">
+            
+            <!-- IDENTITY OVERVIEW METRIC -->
+            <div class="bg-gradient-to-br from-neutral-900 to-neutral-950 border border-neutral-900 rounded-2xl p-5 relative overflow-hidden">
+                <div class="absolute -right-8 -top-8 w-24 h-24 bg-amber-500/5 rounded-full blur-xl"></div>
+                <div class="flex justify-between items-start mb-4">
                     <div>
-                        <label class="block text-[10px] text-neutral-500 uppercase font-bold mb-1">Modify Token Balance</label>
-                        <input id="adminBalanceInput" type="number" placeholder="Set balance, e.g. 75000" class="w-full bg-neutral-900/60 border border-neutral-800 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500">
+                        <span class="text-[10px] text-neutral-500 font-mono uppercase tracking-widest block mb-0.5">Active Operator</span>
+                        <h3 id="displayUser" class="text-base font-bold text-neutral-200 tracking-tight">---</h3>
                     </div>
-                    <div class="flex items-end">
-                        <button onclick="adminUpdateBalance()" class="w-full bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 text-amber-400 font-bold text-xs py-2 rounded-lg transition-all cursor-pointer">
-                            Update Balance
+                    <span id="nodeStatusBadge" class="text-[9px] bg-red-500/10 text-red-400 px-2 py-0.5 rounded font-mono font-bold tracking-wider uppercase border border-red-500/20">Offline</span>
+                </div>
+                <div class="border-t border-neutral-900 pt-4 flex justify-between items-end">
+                    <div>
+                        <span class="text-[10px] text-neutral-400 uppercase tracking-wider font-semibold">Total Allocation Balance</span>
+                        <div class="flex items-baseline gap-1.5 mt-0.5">
+                            <span id="displayBalance" class="text-3xl font-black text-amber-500 tracking-tight">0</span>
+                            <span class="text-xs font-bold text-neutral-400 font-mono">$COUPE</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CORE MINER HARDWARE LOGIC BLOCK -->
+            <div class="bg-neutral-900/30 border border-neutral-900 rounded-2xl p-5 space-y-4">
+                <div>
+                    <h4 class="text-xs font-bold text-neutral-300 uppercase tracking-wider mb-1">Layer-3 Proxy Mining Node</h4>
+                    <p class="text-[11px] text-neutral-400">Stream idle internet bandwidth telemetry packets to generate crypto asset rewards.</p>
+                </div>
+                <button id="nodeToggleBtn" onclick="toggleNodeMining()" class="w-full bg-neutral-900 border border-neutral-800 hover:border-amber-500/40 text-neutral-300 font-bold text-xs py-3 rounded-xl transition-all cursor-pointer">
+                    Initialize Mining Node
+                </button>
+                <div class="bg-neutral-950 border border-neutral-900 rounded-xl p-3">
+                    <div class="flex justify-between items-center mb-1.5 pb-1.5 border-b border-neutral-900">
+                        <span class="text-[10px] font-mono uppercase tracking-wider text-neutral-500">Telemetry Console Stream</span>
+                        <span class="text-[9px] font-mono text-neutral-600">STDOUT // READY</span>
+                    </div>
+                    <div id="nodeConsole" class="h-28 overflow-y-auto text-[10px] font-mono text-neutral-400 space-y-1 scrollbar-none selection:bg-amber-500/20">
+                        <div>[SYSTEM] Terminal online. Waiting for operator routing signature hook...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TOKENOMICS ANALYSIS GRAPHICS SECTION -->
+            <div class="bg-neutral-900/30 border border-neutral-900 rounded-2xl p-5">
+                <h4 class="text-xs font-bold text-neutral-300 uppercase tracking-wider mb-4">Ecosystem Architecture</h4>
+                <div class="flex items-center gap-6">
+                    <div class="w-24 h-24 relative flex-shrink-0">
+                        <canvas id="tokenomicsChart"></canvas>
+                        <div class="absolute inset-0 flex items-center justify-center flex-col">
+                            <span class="text-[10px] text-neutral-500 font-mono uppercase tracking-tighter leading-none">Supply</span>
+                            <span class="text-xs font-bold text-neutral-200">1B</span>
+                        </div>
+                    </div>
+                    <div class="flex-1 grid grid-cols-2 gap-x-2 gap-y-3">
+                        <div class="flex items-center gap-2">
+                            <div class="w-2 h-2 rounded-full bg-amber-500"></div>
+                            <div>
+                                <p class="text-[10px] text-neutral-500 font-medium leading-none mb-0.5">Presale Allocation</p>
+                                <span class="text-xs font-bold text-neutral-200">40%</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-2 h-2 rounded-full bg-amber-600"></div>
+                            <div>
+                                <p class="text-[10px] text-neutral-500 font-medium leading-none mb-0.5">Hardware Staking</p>
+                                <span class="text-xs font-bold text-neutral-200">30%</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-2 h-2 rounded-full bg-neutral-500"></div>
+                            <div>
+                                <p class="text-[10px] text-neutral-500 font-medium leading-none mb-0.5">Marketing Engine</p>
+                                <span class="text-xs font-bold text-neutral-200">15%</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-2 h-2 rounded-full bg-neutral-800"></div>
+                            <div>
+                                <p class="text-[10px] text-neutral-500 font-medium leading-none mb-0.5">AMM Liquidity</p>
+                                <span class="text-xs font-bold text-neutral-200">15%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COMMUNITY REFERRAL NETWORKING -->
+            <div class="bg-neutral-900/30 border border-neutral-900 rounded-2xl p-5 space-y-3">
+                <div>
+                    <h4 class="text-xs font-bold text-neutral-300 uppercase tracking-wider mb-1">Referral Network Array</h4>
+                    <p class="text-[11px] text-neutral-400">Expand the decentralized network pipeline to boost your core telemetry mining velocity.</p>
+                </div>
+                <div class="flex justify-between items-center bg-neutral-950 border border-neutral-900 p-3 rounded-xl">
+                    <div>
+                        <span class="text-[10px] text-neutral-500 font-mono uppercase tracking-wider">Active Invites Bound</span>
+                        <div id="displayInvites" class="text-xl font-bold text-neutral-200">0</div>
+                    </div>
+                    <button onclick="alert('Referral hook copied to terminal buffer!')" class="bg-neutral-900 hover:border-neutral-800 border border-neutral-800 text-neutral-300 font-bold text-xs px-4 py-2.5 rounded-xl transition-all">
+                        Copy Invite
+                    </button>
+                </div>
+            </div>
+
+            <!-- PRESALE LAUNCHPAD FUNDRAISING PLATFORM -->
+            <div class="bg-gradient-to-b from-neutral-900/50 to-neutral-950 border border-neutral-900 rounded-2xl p-5 space-y-4">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h4 class="text-xs font-bold text-neutral-300 uppercase tracking-wider mb-1">Presale Terminal Funding</h4>
+                        <p class="text-[11px] text-neutral-400">Lock in your index baseline swap rate vector ahead of global DEX initialization pools.</p>
+                    </div>
+                </div>
+
+                <!-- COUNTDOWN TIMER UNIT -->
+                <div class="bg-neutral-950 border border-neutral-900 rounded-xl p-3 flex justify-around text-center">
+                    <div>
+                        <span id="days" class="text-base font-black text-amber-500 font-mono">02</span>
+                        <p class="text-[9px] text-neutral-500 uppercase font-bold mt-0.5">Days</p>
+                    </div>
+                    <span class="text-neutral-700 font-bold">:</span>
+                    <div>
+                        <span id="hours" class="text-base font-black text-amber-500 font-mono">14</span>
+                        <p class="text-[9px] text-neutral-500 uppercase font-bold mt-0.5">Hours</p>
+                    </div>
+                    <span class="text-neutral-700 font-bold">:</span>
+                    <div>
+                        <span id="minutes" class="text-base font-black text-amber-500 font-mono">35</span>
+                        <p class="text-[9px] text-neutral-500 uppercase font-bold mt-0.5">Mins</p>
+                    </div>
+                    <span class="text-neutral-700 font-bold">:</span>
+                    <div>
+                        <span id="seconds" class="text-base font-black text-amber-500 font-mono">59</span>
+                        <p class="text-[9px] text-neutral-500 uppercase font-bold mt-0.5">Secs</p>
+                    </div>
+                </div>
+
+                <!-- CALCULATION MATH SWAP MODULE -->
+                <div class="space-y-2">
+                    <div class="relative">
+                        <label class="absolute right-3 top-2.5 text-[10px] font-mono font-bold text-neutral-500 uppercase">SOL</label>
+                        <input type="number" id="solInput" placeholder="0.0" class="w-full bg-neutral-950 border border-neutral-900 rounded-xl pl-4 pr-12 py-2.5 text-xs focus:outline-none focus:border-amber-500/30 text-neutral-100 placeholder-neutral-700">
+                    </div>
+                    <div class="relative">
+                        <label class="absolute right-3 top-2.5 text-[10px] font-mono font-bold text-neutral-500 uppercase">COUPE</label>
+                        <input type="text" id="coupeOutput" readonly placeholder="0" class="w-full bg-neutral-950/50 border border-neutral-900 rounded-xl pl-4 pr-14 py-2.5 text-xs text-amber-500/80 font-mono focus:outline-none cursor-not-allowed">
+                    </div>
+                </div>
+                <button onclick="executePresaleTransaction()" class="w-full bg-amber-500 hover:bg-amber-400 text-black font-black text-xs py-3 rounded-xl transition-all shadow-md shadow-amber-500/5 uppercase tracking-wider">
+                    Authorize Pipeline Purchase
+                </button>
+            </div>
+
+            <!-- ADMINISTRATOR OVERRIDE CONTROL FLIGHT PANEL -->
+            <div class="bg-red-950/5 border border-red-900/10 rounded-2xl p-5 space-y-4">
+                <div class="flex items-center gap-2 pb-2 border-b border-neutral-900">
+                    <div class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
+                    <h4 class="text-xs font-mono font-bold text-red-400/90 uppercase tracking-widest">Admin Matrix Controls</h4>
+                </div>
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-[10px] font-mono text-neutral-500 uppercase mb-1">Overwrite Token Allocation Balance</label>
+                        <div class="flex gap-2">
+                            <input type="number" id="adminBalanceInput" placeholder="New balance amount" class="flex-1 bg-neutral-950 border border-neutral-900 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-red-900/50 text-neutral-200">
+                            <button onclick="adminUpdateBalance()" class="bg-red-950/30 hover:bg-red-900/40 border border-red-900/30 text-red-400 font-mono text-[11px] px-3 rounded-xl transition-all">Apply</button>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 pt-1">
+                        <button onclick="adminAddInvites()" class="bg-neutral-900 hover:border-neutral-800 border border-neutral-800 text-neutral-300 font-mono text-[10px] py-2.5 rounded-xl transition-all">
+                            Inject Invite Block
+                        </button>
+                        <button onclick="adminResetProfile()" class="bg-red-950/20 hover:bg-red-950/40 border border-red-900/20 text-red-400/80 font-mono text-[10px] py-2.5 rounded-xl transition-all">
+                            Wipe Local Cache
                         </button>
                     </div>
                 </div>
-                <div class="pt-2 border-t border-neutral-900 flex justify-between gap-3">
-                    <button onclick="adminAddInvites()" class="w-1/2 bg-neutral-900/40 hover:bg-neutral-900 border border-neutral-800 text-neutral-400 hover:text-white text-[11px] py-1.5 rounded-lg transition-colors cursor-pointer">
-                        ➕ Add Simulated Invite
+            </div>
+
+        </div>
+
+        <!-- WALLET CONNECTION INTERACTION MODAL BOX -->
+        <div id="walletModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-end justify-center">
+            <div class="w-full max-w-md bg-neutral-950 border-t border-neutral-900 rounded-t-3xl p-6 space-y-4 animate-slide-up">
+                <div class="flex justify-between items-center pb-2">
+                    <h3 class="text-sm font-bold text-neutral-200 uppercase tracking-wider font-mono">Select Solana Environment Path</h3>
+                    <button onclick="toggleWalletModal(false)" class="text-neutral-500 hover:text-neutral-300 text-lg font-bold px-2">&times;</button>
+                </div>
+                <div class="space-y-2">
+                    <button onclick="triggerWalletConnection('phantom')" class="w-full flex items-center justify-between bg-neutral-900 hover:bg-neutral-900/80 border border-neutral-800/60 p-4 rounded-xl transition-colors">
+                        <span class="text-xs font-bold text-neutral-200">Phantom Wallet Vector</span>
+                        <div class="w-5 h-5 rounded bg-purple-600/20 flex items-center justify-center font-bold text-[10px] text-purple-400">P</div>
                     </button>
-                    <button onclick="adminResetProfile()" class="w-1/2 bg-red-950/40 hover:bg-red-950 border border-red-900/30 text-red-400 text-[11px] py-1.5 rounded-lg transition-colors cursor-pointer">
-                        🔄 Reset Account Gate
+                    <button onclick="alert('Alternative cluster vectors initializing securely.')" class="w-full flex items-center justify-between bg-neutral-900/40 opacity-50 p-4 rounded-xl cursor-not-allowed">
+                        <span class="text-xs font-bold text-neutral-500">Solflare Engine Path</span>
+                        <div class="w-5 h-5 rounded bg-orange-600/20 flex items-center justify-center font-bold text-[10px] text-orange-400">S</div>
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Right Side: Presale Token Multiplier Widget -->
-        <div class="bg-neutral-950 border border-neutral-900 rounded-3xl p-6 md:p-8 shadow-2xl relative">
-            <div class="flex justify-between items-center mb-4">
-                <span class="bg-amber-500/10 text-amber-400 border border-amber-500/20 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Presale Stage 1</span>
-                <span class="text-neutral-400 text-sm">1 SOL = 10,000,000 $COUPE</span>
-            </div>
+    </div>
 
-            <!-- Live Countdowns -->
-            <div class="bg-neutral-900/50 border border-neutral-900/80 rounded-2xl p-3 mb-6 flex justify-around text-center">
-                <div>
-                    <div id="days" class="text-xl font-black text-white">02</div>
-                    <div class="text-[10px] uppercase text-neutral-500 font-bold">Days</div>
-                </div>
-                <div class="text-neutral-700 font-bold text-xl">:</div>
-                <div>
-                    <div id="hours" class="text-xl font-black text-white">14</div>
-                    <div class="text-[10px] uppercase text-neutral-500 font-bold">Hours</div>
-                </div>
-                <div class="text-neutral-700 font-bold text-xl">:</div>
-                <div>
-                    <div id="minutes" class="text-xl font-black text-white">35</div>
-                    <div class="text-[10px] uppercase text-neutral-500 font-bold">Mins</div>
-                </div>
-                <div class="text-neutral-700 font-bold text-xl">:</div>
-                <div>
-                    <div id="seconds" class="text-xl font-black text-amber-400">59</div>
-                    <div class="text-[10px] uppercase text-neutral-500 font-bold">Secs</div>
-                </div>
-            </div>
-
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-2">You Pay</label>
-                    <div class="relative">
-                        <input id="solInput" type="number" value="1" min="0" step="0.1" class="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-4 py-3 text-white font-bold focus:outline-none focus:border-amber-500 transition-colors">
-                        <span class="absolute right-4 top-3.5 font-bold text-sm text-neutral-400">SOL</span>
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-2">You Receive</label>
-                    <div class="relative">
-                        <input id="coupeOutput" type="text" value="10,000,000" disabled class="w-full bg-neutral-900/40 border border-neutral-800 rounded-xl px-4 py-3 text-amber-500/70 font-black cursor-not-allowed">
-                        <span class="absolute right-4 top-3.5 font-bold text-sm text-neutral-600 font-black">COUPE</span>
-                    </div>
-                </div>
-                
-                <button id="buyBtn" onclick="executePresaleTransaction()" class="w-full bg-gradient-to-r from-amber-400 to-yellow-600 hover:from-amber-500 hover:to-yellow-700 text-black py-4 rounded-xl font-bold transition-all text-md mt-2 cursor-pointer shadow-lg shadow-amber-500/5">
-                    Buy $COUPE
-                </button>
-            </div>
-        </div>
-    </main>
-
-    <!-- Tokenomics Metrics Breakdown -->
-    <section class="max-w-6xl mx-auto px-4 py-12 border-t border-neutral-900 text-center">
-        <h3 class="text-2xl font-black text-white mb-8">📊 $COUPE Structural Distribution</h3>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div class="bg-neutral-950 border border-neutral-900 p-4 rounded-xl">
-                <div class="text-xl font-black text-amber-400">1 Billion</div>
-                <div class="text-[10px] text-neutral-500 font-bold uppercase">Total Supply</div>
-            </div>
-            <div class="bg-neutral-950 border border-neutral-900 p-4 rounded-xl">
-                <div class="text-xl font-black text-amber-400">0%</div>
-                <div class="text-[10px] text-neutral-500 font-bold uppercase">Transaction Tax</div>
-            </div>
-            <div class="bg-neutral-950 border border-neutral-900 p-4 rounded-xl">
-                <div class="text-xl font-black text-amber-400">40%</div>
-                <div class="text-[10px] text-neutral-500 font-bold uppercase">Presale Vault</div>
-            </div>
-            <div class="bg-neutral-950 border border-neutral-900 p-4 rounded-xl">
-                <div class="text-xl font-black text-amber-400">30%</div>
-                <div class="text-[10px] text-neutral-500 font-bold uppercase">Staking Pools</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer Area -->
-    <footer class="bg-neutral-950 border-t border-neutral-900 text-center py-8 text-xs text-neutral-500">
-        <p class="font-bold text-neutral-400 mb-1">COUPE Ecosystem Layout Portal</p>
-        <p>© 2026 COUPE Labs. All rights reserved.</p>
-    </footer>
-
-    <!-- Core App Dashboard Engine Script -->
+    <!-- CORE APPLICATION BUSINESS RUNTIME SCRIPT -->
     <script>
-        let userWalletAddress = null;
-        const TREASURY_WALLET = null; 
-        const rate = 10000000;
+        // System Parameters & Global State Variables
+        let isNodeMining = false;
+        let nodeMiningInterval = null;
+        let nodeConsoleLogsInterval = null;
+        let userWalletAddress = "";
+        const rate = 55000; // 1 SOL = 55,000 COUPE
 
-        // --- DASHBOARD & LOCAL MEMORY ENGINE ---
-        window.addEventListener('DOMContentLoaded', () => {
-            initializeUserSession();
+        // Document Initialization Lifecycle Hook
+        document.addEventListener('DOMContentLoaded', () => {
+            const cachedUser = localStorage.getItem('coupe_username');
+            if (cachedUser) {
+                displayDashboardData(cachedUser);
+            }
             setupMathCalculator();
             startTimer();
+            initChartGraphic();
+            runFomoFeedEngine();
         });
 
-        function initializeUserSession() {
-            let username = localStorage.getItem('coupe_username');
+        // Client User Account Initialization
+        function initializeSession() {
+            const inputName = document.getElementById('usernameInput').value.trim();
+            if (!inputName) {
+                alert("Please declare a unique access identity key.");
+                return;
+            }
+            localStorage.setItem('coupe_username', inputName);
+            if(!localStorage.getItem('coupe_balance')) localStorage.setItem('coupe_balance', '0');
+            if(!localStorage.getItem('coupe_invites')) localStorage.setItem('coupe_invites', '0');
             
-            if (!username) {
-                document.getElementById('registrationGate').classList.remove('hidden');
-            } else {
-                displayDashboardData(username);
-            }
+            displayDashboardData(inputName);
         }
 
-        function handleRegistration(event) {
-            event.preventDefault();
-            const inputName = document.getElementById('regUsername').value.trim();
-            if (inputName) {
-                localStorage.setItem('coupe_username', inputName);
-                
-                // Set default allocation balance to 5,000 for new signups
-                if(!localStorage.getItem('coupe_balance')) {
-                    localStorage.setItem('coupe_balance', '5000');
-                }
-                if(!localStorage.getItem('coupe_invites')) {
-                    localStorage.setItem('coupe_invites', '0');
-                }
-                
-                document.getElementById('registrationGate').classList.add('hidden');
-                displayDashboardData(inputName);
-            }
-        }
-
+        // GUI Screen Mapping Layout Toggle
         function displayDashboardData(username) {
-            document.getElementById('dashGreeting').innerText = username;
+            document.getElementById('authScreen').classList.add('hidden');
+            document.getElementById('dashboardScreen').classList.remove('hidden');
             
-            const savedBalance = localStorage.getItem('coupe_balance') || '0';
-            document.getElementById('allocatedCoinBalance').innerText = parseInt(savedBalance).toLocaleString();
-            
-            const savedInvites = localStorage.getItem('coupe_invites') || '0';
-            document.getElementById('refCount').innerText = savedInvites;
-            
-            const absoluteOrigin = window.location.origin + window.location.pathname;
-            const uniqueInviteLink = `${absoluteOrigin}?ref=${username.toLowerCase()}`;
-            document.getElementById('inviteLinkInput').value = uniqueInviteLink;
+            document.getElementById('displayUser').innerText = username;
+            document.getElementById('displayBalance').innerText = parseInt(localStorage.getItem('coupe_balance') || '0').toLocaleString();
+            document.getElementById('displayInvites').innerText = localStorage.getItem('coupe_invites') || '0';
         }
 
-        function copyInviteLink() {
-            const copyText = document.getElementById('inviteLinkInput');
-            copyText.select();
-            copyText.setSelectionRange(0, 99999);
-            navigator.clipboard.writeText(copyText.value);
-            alert("✨ Invite link copied successfully!");
-        }
-
-        // --- CLIENT SIDE TESTING CONSOLE FUNCTIONS ---
-        function adminUpdateBalance() {
-            const newBal = document.getElementById('adminBalanceInput').value;
-            if (newBal !== "" && parseInt(newBal) >= 0) {
-                localStorage.setItem('coupe_balance', newBal);
-                let currentUsername = localStorage.getItem('coupe_username') || "Holder";
-                displayDashboardData(currentUsername);
-                alert(`💵 Balance updated locally to ${parseInt(newBal).toLocaleString()} $COUPE!`);
-            } else {
-                alert("Please input a valid balance number.");
+        // --- REAL-TIME LIVE DEPIN NODE MINING SUBSYSTEM ---
+        function toggleNodeMining() {
+            if(!userWalletAddress) {
+                alert("Please click 'Connect Wallet' at the top right to verify your network routing address before running a node!");
+                return;
             }
-        }
 
-        function adminAddInvites() {
-            let currentInvites = parseInt(localStorage.getItem('coupe_invites') || '0');
-            currentInvites += 1;
-            localStorage.setItem('coupe_invites', currentInvites.toString());
-            let currentUsername = localStorage.getItem('coupe_username') || "Holder";
-            displayDashboardData(currentUsername);
-        }
+            const badge = document.getElementById('nodeStatusBadge');
+            const btn = document.getElementById('nodeToggleBtn');
 
-        function adminResetProfile() {
-            localStorage.removeItem('coupe_username');
-            localStorage.removeItem('coupe_balance');
-            localStorage.removeItem('coupe_invites');
-            alert("Clear Success! Reloading the presentation viewport...");
-            window.location.reload();
-        }
-
-        // --- MATH CALCULATOR ---
-        function setupMathCalculator() {
-            const solInput = document.getElementById('solInput');
-            const coupeOutput = document.getElementById('coupeOutput');
-
-            solInput.addEventListener('input', (e) => {
-                const solValue = parseFloat(e.target.value);
-                if (!isNaN(solValue) && solValue >= 0) {
-                    coupeOutput.value = (solValue * rate).toLocaleString();
-                } else {
-                    coupeOutput.value = '0';
-                }
-            });
-        }
-
-        // --- COUNTDOWN SYSTEM ---
-        function startTimer() {
-            let targetDate = new Date();
-            targetDate.setDate(targetDate.getDate() + 3);
-
-            function updateCountdown() {
-                const now = new Date().getTime();
-                const difference = targetDate - now;
-                const d = Math.floor(difference / (1000 * 60 * 60 * 24));
-                const h = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const m = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-                const s = Math.floor((difference % (1000 * 60)) / 1000);
+            if (!isNodeMining) {
+                // Turn Node ON
+                isNodeMining = true;
+                badge.innerText = "Online";
+                badge.className = "text-[9px] bg-green-500/10 text-green-400 px-2 py-0.5 rounded font-mono font-bold tracking-wider uppercase border border-green-500/20";
+                btn.innerText = "Stop Mining Node";
+                btn.className = "w-full bg-red-950/30 border border-red-900/40 hover:bg-red-950 text-red-400 font-bold text-xs py-3 rounded-xl transition-all cursor-pointer";
                 
-                document.getElementById('days').innerText = d < 10 ? '0' + d : d;
-                document.getElementById('hours').innerText = h < 10 ? '0' + h : h;
-                document.getElementById('minutes').innerText = m < 10 ? '0' + m : m;
-                document.getElementById('seconds').innerText = s < 10 ? '0' + s : s;
-            }
-            setInterval(updateCountdown, 1000);
-            updateCountdown();
-        }
+                logToConsole("Initializing Layer-3 network packet handshakes...");
 
-        // --- WEB3 PROVIDER ---
-        function getProvider() {
-            if ('solana' in window) {
-                const provider = window.solana;
-                if (provider.isPhantom) return provider;
-            }
-            return null;
-        }
+                // Console text stream sequence
+                const logPool = [
+                    "Routing package payload via Solana node array...",
+                    "[PING] Secure encryption proxy handshakes active.",
+                    "Scraping public Web3 datasets... complete.",
+                    "Relaying public index network matrices stream...",
+                    "Bandwidth verification score: 98.4% uptime.",
+                    "[REWARD] Block validated successfully."
+                ];
 
-        async function connectWallet() {
-            const provider = getProvider();
-            if (provider) {
-                try {
-                    const response = await provider.connect();
-                    userWalletAddress = response.publicKey.toString();
-                    const shortAddress = userWalletAddress.slice(0, 4) + "..." + userWalletAddress.slice(-4);
-                    
-                    document.getElementById('connectBtn').innerText = shortAddress;
-                    document.getElementById('connectBtn').className = "bg-neutral-900 text-amber-400 border border-neutral-800 px-6 py-2 rounded-full font-bold text-sm cursor-pointer shadow-lg";
-                } catch (err) {
-                    alert("Wallet authorization rejected.");
-                }
+                nodeConsoleLogsInterval = setInterval(() => {
+                    const randomLog = logPool[Math.floor(Math.random() * logPool.length)];
+                    logToConsole(randomLog);
+                }, 2000);
+
+                // Token reward balance ticker interval (+3 tokens every second!)
+                nodeMiningInterval = setInterval(() => {
+                    let curBal = parseInt(localStorage.getItem('coupe_balance') || '0');
+                    curBal += 3;
+                    localStorage.setItem('coupe_balance', curBal.toString());
+                    displayDashboardData(localStorage.getItem('coupe_username'));
+                }, 1000);
+
             } else {
-                alert("Solana wallet extension not found. Opening Phantom install window...");
-                window.open("https://phantom.app/", "_blank");
+                // Turn Node OFF
+                isNodeMining = false;
+                badge.innerText = "Offline";
+                badge.className = "text-[9px] bg-red-500/10 text-red-400 px-2 py-0.5 rounded font-mono font-bold tracking-wider uppercase border border-red-500/20";
+                btn.innerText = "Initialize Mining Node";
+                btn.className = "w-full bg-neutral-900 border border-neutral-800 hover:border-amber-500/40 text-neutral-300 font-bold text-xs py-3 rounded-xl transition-all cursor-pointer";
+                
+                clearInterval(nodeMiningInterval);
+                clearInterval(nodeConsoleLogsInterval);
+                logToConsole("Node engine gracefully decoupled. Data telemetry terminated.");
+            }
+        }
+
+        function logToConsole(message) {
+            const consoleBox = document.getElementById('nodeConsole');
+            if (consoleBox) {
+                const timestamp = new Date().toLocaleTimeString();
+                consoleBox.innerHTML += `<div>[${timestamp}] &gt; ${message}</div>`;
+                consoleBox.scrollTop = consoleBox.scrollHeight;
+            }
+        }
+
+        // Wallet Handlers
+        function toggleWalletModal(show) {
+            const modal = document.getElementById('walletModal');
+            if(show) modal.classList.remove('hidden');
+            else modal.classList.add('hidden');
+        }
+
+        async function triggerWalletConnection(provider) {
+            try {
+                if (provider === 'phantom') {
+                    if (window.solana && window.solana.isPhantom) {
+                        const response = await window.solana.connect();
+                        userWalletAddress = response.publicKey.toString();
+                        document.getElementById('connectBtn').innerText = userWalletAddress.slice(0, 4) + '...' + userWalletAddress.slice(-4);
+                        toggleWalletModal(false);
+                        logToConsole(`Wallet bound securely: ${userWalletAddress}`);
+                    } else {
+                        alert('Phantom Wallet extension not discovered. Please set it up in your web layout extensions.');
+                    }
+                }
+            } catch (err) {
+                console.error(err);
+                logToConsole("Security array handshake declined by client provider.");
+            }
+        }
+
+        // Mathematical Calculator Operations
+        function setupMathCalculator() {
+            const solIn = document.getElementById('solInput');
+            const coupeOut = document.getElementById('coupeOutput');
+            if(solIn && coupeOut) {
+                solIn.addEventListener('input', () => {
+                    const calculated = parseFloat(solIn.value || 0) * rate;
+                    coupeOut.value = calculated.toLocaleString();
+                });
             }
         }
 
         function executePresaleTransaction() {
-            if (TREASURY_WALLET === null) {
-                alert("🚀 COUPE Presale Pools Coming Soon! The transfer window opens as soon as the smart contract is public. Your pre-allocated balances are completely secure.");
+            if(!userWalletAddress) {
+                alert("Please pair your active Solana address wallet signature matrix first!");
                 return;
             }
+            alert("Presale processing engines initializing secure blockchain pipelines soon.");
+        }
+
+        // Nighttime Client Admin Override Protocols
+        function adminUpdateBalance() {
+            const val = document.getElementById('adminBalanceInput').value;
+            if(val) {
+                localStorage.setItem('coupe_balance', val);
+                displayDashboardData(localStorage.getItem('coupe_username'));
+                logToConsole(`[ADMIN ACTION] Allocation array overwritten to: ${val} COUPE`);
+            }
+        }
+
+        function adminAddInvites() {
+            let current = parseInt(localStorage.getItem('coupe_invites') || '0');
+            current += 1;
+            localStorage.setItem('coupe_invites', current.toString());
+            displayDashboardData(localStorage.getItem('coupe_username'));
+            logToConsole(`[ADMIN ACTION] Injected community signature invite link block metrics.`);
+        }
+
+        function adminResetProfile() {
+            localStorage.clear();
+            location.reload();
+        }
+
+        // Timer Mechanics
+        function startTimer() {
+            let d = 2, h = 14, m = 35, s = 59;
+            setInterval(() => {
+                s--;
+                if(s < 0) { s = 59; m--; }
+                if(m < 0) { m = 59; h--; }
+                if(h < 0) { h = 23; d--; }
+                if(d < 0) { d = 0; h = 0; m = 0; s = 0; }
+                
+                document.getElementById('days').innerText = d.toString().padStart(2, '0');
+                document.getElementById('hours').innerText = h.toString().padStart(2, '0');
+                document.getElementById('minutes').innerText = m.toString().padStart(2, '0');
+                document.getElementById('seconds').innerText = s.toString().padStart(2, '0');
+            }, 1000);
+        }
+
+        // Graphic Framework Initializations
+        function initChartGraphic() {
+            const ctx = document.getElementById('tokenomicsChart');
+            if(ctx) {
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Presale', 'Staking', 'Marketing', 'Liquidity'],
+                        datasets: [{
+                            data: [40, 30, 15, 15],
+                            backgroundColor: ['#f59e0b', '#d97706', '#737373', '#262626'],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        plugins: { legend: { display: false } },
+                        cutout: '75%'
+                    }
+                });
+            }
+        }
+
+        // Fomo Feed Engine
+        function runFomoFeedEngine() {
+            const ticker = document.getElementById('fomoTicker');
+            const feeds = [
+                "Synchronizing decentralized global network matrices...",
+                "User node_0x4f82 active: verified 94.2 Mbps transmission payload.",
+                "Ecosystem status: Staking pools lockup thresholds normal.",
+                "Grid signature pool total: 1,482,900 nodes live globally."
+            ];
+            let step = 0;
+            setInterval(() => {
+                step = (step + 1) % feeds.length;
+                ticker.innerText = feeds[step];
+            }, 4000);
         }
     </script>
 </body>
