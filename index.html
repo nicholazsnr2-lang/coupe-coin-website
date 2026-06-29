@@ -18,27 +18,46 @@
 </head>
 <body class="bg-[#0b0b0c] text-neutral-200 font-sans antialiased selection:bg-amber-500 selection:text-black">
 
-    <!-- Top Navigation -->
+    <!-- REGISTRATION GATE POPUP OVERLAY -->
+    <div id="registrationGate" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-neutral-950 border border-neutral-900 rounded-3xl p-6 md:p-8 max-w-md w-full text-center shadow-2xl">
+            <div class="flex justify-center mb-4">
+                <img src="$COUPE.png" alt="COUPE" class="w-16 h-16 rounded-full border-2 border-amber-500/40">
+            </div>
+            <h2 class="text-2xl font-black text-white mb-2">Welcome to $COUPE</h2>
+            <p class="text-xs text-neutral-400 mb-6">Register your account profile to access the ecosystem dashboard, track pre-allocated balances, and claim your invite link.</p>
+            
+            <form onsubmit="handleRegistration(event)" class="space-y-4 text-left">
+                <div>
+                    <label class="block text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-2">Choose a Username</label>
+                    <input id="regUsername" type="text" required placeholder="e.g. CryptoKing" class="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-4 py-3 text-white font-bold focus:outline-none focus:border-amber-500 transition-colors">
+                </div>
+                <button type="submit" class="w-full bg-gradient-to-r from-amber-400 to-yellow-600 hover:from-amber-500 hover:to-yellow-700 text-black py-3.5 rounded-xl font-bold transition-all text-sm cursor-pointer shadow-lg shadow-amber-500/10">
+                    Enter Dashboard
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Top Navigation Bar -->
     <nav class="flex items-center justify-between px-6 py-4 max-w-6xl mx-auto border-b border-neutral-900">
         <div class="flex items-center gap-3">
             <img src="$COUPE.png" alt="COUPE Logo" class="w-10 h-10 rounded-full border border-amber-500/30">
             <span class="font-black text-xl tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-yellow-600">$COUPE</span>
         </div>
         
-        <!-- Socials & Connect -->
         <div class="flex items-center gap-4">
-            <a href="#" id="x-link-nav" target="_blank" class="text-neutral-400 hover:text-amber-400 font-bold text-sm transition-colors">X (Twitter)</a>
-            <a href="https://t.me/COUPEcoin" target="_blank" class="text-neutral-400 hover:text-amber-400 font-bold text-sm transition-colors">Telegram</a>
-            <a href="https://discord.gg/T6sbCpFWk" target="_blank" class="text-neutral-400 hover:text-amber-400 font-bold text-sm transition-colors">Discord</a>
+            <a href="#" target="_blank" class="text-neutral-400 hover:text-amber-400 font-bold text-sm transition-colors hidden sm:inline">X (Twitter)</a>
+            <a href="https://t.me/COUPEcoin" target="_blank" class="text-neutral-400 hover:text-amber-400 font-bold text-sm transition-colors hidden sm:inline">Telegram</a>
             
-            <!-- Live Web3 Button -->
+            <!-- Dynamic Navbar Wallet Button -->
             <button id="connectBtn" onclick="connectWallet()" class="bg-gradient-to-r from-amber-400 to-yellow-600 hover:from-amber-500 hover:to-yellow-700 text-black px-6 py-2 rounded-full font-bold shadow-lg shadow-amber-500/10 transition-all text-sm cursor-pointer">
                 Connect Wallet
             </button>
         </div>
     </nav>
 
-    <!-- Trust Factor: Contract Address Bar -->
+    <!-- Contract Address Indicator -->
     <div class="max-w-6xl mx-auto px-4 pt-6">
         <div class="bg-neutral-950 border border-neutral-900 rounded-2xl p-3 flex flex-wrap items-center justify-between gap-3 max-w-xl mx-auto">
             <span class="text-xs text-neutral-500 uppercase tracking-widest pl-2 font-bold">CA:</span>
@@ -49,39 +68,102 @@
         </div>
     </div>
 
-    <!-- Balanced Hero Banner Area -->
-    <div class="max-w-4xl mx-auto px-4 pt-8 text-center animate-float">
-        <div class="max-w-md mx-auto overflow-hidden rounded-3xl border border-neutral-900 shadow-2xl bg-black">
-            <img src="IMG-20260626-WA0076.jpg" alt="COUPE Banner" class="w-full h-auto object-contain">
-        </div>
-    </div>
-
-    <!-- Main Content & Presale Section -->
-    <main class="max-w-6xl mx-auto px-4 pt-12 pb-24 grid md:grid-cols-2 gap-12 items-center">
+    <!-- MAIN DASHBOARD CONTENT AREA -->
+    <main class="max-w-6xl mx-auto px-4 pt-12 pb-24 grid md:grid-cols-2 gap-12 items-start">
         
-        <!-- Left Side: Hero Intro -->
-        <div class="text-left">
-            <h1 class="text-4xl md:text-6xl font-black tracking-tight mb-6 leading-tight text-white">
-                Own the Culture.<br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-yellow-500">Build the Future.</span>
-            </h1>
-            <p class="text-neutral-400 text-lg mb-6 leading-relaxed">
-                COUPE is building the next generation of community-powered meme utility on Solana. We blend the viral energy of meme culture with real blockchain utility, creating an ecosystem where every holder can earn, participate, and shape the future.
-            </p>
-            <div class="flex flex-wrap gap-3">
-                <span class="bg-neutral-900 border border-neutral-800 px-4 py-2 rounded-xl text-xs font-semibold text-amber-400">⚡ Solana Network</span>
-                <span class="bg-neutral-900 border border-neutral-800 px-4 py-2 rounded-xl text-xs font-semibold text-amber-400">💎 SPL Token</span>
+        <!-- Left Side: User Portfolio & Invite Metrics Dashboard -->
+        <div class="space-y-6">
+            <!-- Personalized Greeting & Intro Box -->
+            <div class="bg-neutral-950 border border-neutral-900 rounded-3xl p-6 shadow-xl">
+                <h1 class="text-3xl font-black text-white tracking-tight mb-2">
+                    Welcome back, <span id="dashGreeting" class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-yellow-500">Holder</span>!
+                </h1>
+                <p class="text-neutral-400 text-sm leading-relaxed">
+                    This is your premium allocation console. Track pre-sale distributions and manage your cultural footprints securely.
+                </p>
+            </div>
+
+            <!-- Pre-allocated Balance Module (No Pricing Displayed) -->
+            <div class="bg-gradient-to-b from-neutral-950 to-neutral-950/40 border border-neutral-900 rounded-3xl p-6 shadow-xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-24 h-24 bg-amber-500/5 rounded-full blur-2xl"></div>
+                <div class="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-2">Pre-allocated Balance</div>
+                <div class="flex items-baseline gap-2">
+                    <span id="allocatedCoinBalance" class="text-4xl font-black text-white tracking-tight">5,000</span>
+                    <span class="text-amber-400 font-extrabold text-sm">$COUPE</span>
+                </div>
+                <p class="text-[11px] text-neutral-500 mt-2 italic border-t border-neutral-900 pt-2">
+                    🔒 These tokens are locked and reserved under your profile name for direct launch delivery.
+                </p>
+            </div>
+
+            <!-- Referral & Social Invite Link Hub -->
+            <div class="bg-neutral-950 border border-neutral-900 rounded-3xl p-6 shadow-xl space-y-4">
+                <div>
+                    <h4 class="text-white font-bold text-sm mb-1">📢 Community Invite Engine</h4>
+                    <p class="text-xs text-neutral-400">Share your custom referral configuration link. Network actions boost pool eligibility points.</p>
+                </div>
+                
+                <div class="flex gap-2">
+                    <input id="inviteLinkInput" type="text" readonly value="https://coupe.vercel.app/?ref=user" class="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-4 py-2.5 text-xs font-mono text-neutral-400 focus:outline-none">
+                    <button onclick="copyInviteLink()" class="bg-amber-500 hover:bg-amber-600 text-black font-bold text-xs px-4 rounded-xl transition-all cursor-pointer whitespace-nowrap">
+                        Copy Link
+                    </button>
+                </div>
+                
+                <div class="grid grid-cols-3 gap-2 pt-2 text-center text-xs">
+                    <div class="bg-neutral-900 border border-neutral-800 p-2.5 rounded-xl">
+                        <div class="text-white font-black text-sm" id="refCount">0</div>
+                        <div class="text-[10px] text-neutral-500 font-medium">Invites</div>
+                    </div>
+                    <div class="bg-neutral-900 border border-neutral-800 p-2.5 rounded-xl">
+                        <div class="text-amber-400 font-black text-sm">Tier 1</div>
+                        <div class="text-[10px] text-neutral-500 font-medium">Status</div>
+                    </div>
+                    <button onclick="alert('Social sharing matrix activated! Copy your link to pass cleanly to Twitter, Telegram, or Discord.')" class="bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 p-2.5 rounded-xl text-neutral-300 font-bold transition-colors cursor-pointer">
+                        Share All
+                    </button>
+                </div>
+            </div>
+
+            <!-- CLIENT DEMO ADMIN UTILITY PANEL (Hidden from public users unless toggled) -->
+            <div class="bg-amber-500/5 border border-amber-500/20 rounded-3xl p-6 shadow-xl space-y-4">
+                <div class="flex items-center justify-between">
+                    <h4 class="text-amber-400 font-black text-xs uppercase tracking-wider">🛠️ Client Live Testing Console</h4>
+                    <span class="text-[10px] bg-amber-500/20 text-amber-400 px-2 py-0.5 rounded-md font-mono font-bold">Admin Only</span>
+                </div>
+                <p class="text-[11px] text-neutral-400 leading-relaxed">
+                    Use these options during your customer presentations to manually simulate token drops or reset user memory variables cleanly.
+                </p>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-[10px] text-neutral-500 uppercase font-bold mb-1">Modify Token Balance</label>
+                        <input id="adminBalanceInput" type="number" placeholder="Set balance, e.g. 75000" class="w-full bg-neutral-900/60 border border-neutral-800 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500">
+                    </div>
+                    <div class="flex items-end">
+                        <button onclick="adminUpdateBalance()" class="w-full bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 text-amber-400 font-bold text-xs py-2 rounded-lg transition-all cursor-pointer">
+                            Update Balance
+                        </button>
+                    </div>
+                </div>
+                <div class="pt-2 border-t border-neutral-900 flex justify-between gap-3">
+                    <button onclick="adminAddInvites()" class="w-1/2 bg-neutral-900/40 hover:bg-neutral-900 border border-neutral-800 text-neutral-400 hover:text-white text-[11px] py-1.5 rounded-lg transition-colors cursor-pointer">
+                        ➕ Add Simulated Invite
+                    </button>
+                    <button onclick="adminResetProfile()" class="w-1/2 bg-red-950/40 hover:bg-red-950 border border-red-900/30 text-red-400 text-[11px] py-1.5 rounded-lg transition-colors cursor-pointer">
+                        🔄 Reset Account Gate
+                    </button>
+                </div>
             </div>
         </div>
 
-        <!-- Right Side: Presale Widget with Live FOMO Timer -->
-        <div class="bg-neutral-950 border border-neutral-900 rounded-3xl p-6 md:p-8 shadow-2xl relative overflow-hidden">
+        <!-- Right Side: Presale Token Multiplier Widget -->
+        <div class="bg-neutral-950 border border-neutral-900 rounded-3xl p-6 md:p-8 shadow-2xl relative">
             <div class="flex justify-between items-center mb-4">
                 <span class="bg-amber-500/10 text-amber-400 border border-amber-500/20 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Presale Stage 1</span>
                 <span class="text-neutral-400 text-sm">1 SOL = 10,000,000 $COUPE</span>
             </div>
 
-            <!-- Live Timer -->
+            <!-- Live Countdowns -->
             <div class="bg-neutral-900/50 border border-neutral-900/80 rounded-2xl p-3 mb-6 flex justify-around text-center">
                 <div>
                     <div id="days" class="text-xl font-black text-white">02</div>
@@ -104,16 +186,6 @@
                 </div>
             </div>
 
-            <div class="mb-6">
-                <div class="flex justify-between text-xs mb-2">
-                    <span class="text-neutral-400">Raised Progress</span>
-                    <span class="text-amber-400 font-bold">🚀 Live</span>
-                </div>
-                <div class="w-full bg-neutral-900 h-3 rounded-full overflow-hidden">
-                    <div class="bg-gradient-to-r from-amber-400 to-yellow-600 h-full rounded-full" style="width: 25%"></div>
-                </div>
-            </div>
-
             <div class="space-y-4">
                 <div>
                     <label class="block text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-2">You Pay</label>
@@ -130,7 +202,6 @@
                     </div>
                 </div>
                 
-                <!-- Action Button tied to Javascript Core Engine -->
                 <button id="buyBtn" onclick="executePresaleTransaction()" class="w-full bg-gradient-to-r from-amber-400 to-yellow-600 hover:from-amber-500 hover:to-yellow-700 text-black py-4 rounded-xl font-bold transition-all text-md mt-2 cursor-pointer shadow-lg shadow-amber-500/5">
                     Buy $COUPE
                 </button>
@@ -138,148 +209,170 @@
         </div>
     </main>
 
-    <!-- How To Buy Guide -->
-    <section class="max-w-6xl mx-auto px-4 py-16 border-t border-neutral-900">
-        <h3 class="text-3xl font-black text-white text-center mb-2">🛒 How to Join the Presale</h3>
-        <p class="text-neutral-500 text-center mb-12 max-w-md mx-auto">Follow these simple steps to acquire your $COUPE tokens safely.</p>
-        <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-6 text-left">
-            <div class="bg-neutral-950 border border-neutral-900 p-6 rounded-2xl">
-                <div class="text-amber-400 font-black text-2xl mb-3">01</div>
-                <h4 class="text-white font-bold text-md mb-2">Create a Wallet</h4>
-                <p class="text-neutral-400 text-xs leading-relaxed">Download Phantom or Solflare wallet extensions from the official store for desktop or mobile apps.</p>
+    <!-- Tokenomics Metrics Breakdown -->
+    <section class="max-w-6xl mx-auto px-4 py-12 border-t border-neutral-900 text-center">
+        <h3 class="text-2xl font-black text-white mb-8">📊 $COUPE Structural Distribution</h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="bg-neutral-950 border border-neutral-900 p-4 rounded-xl">
+                <div class="text-xl font-black text-amber-400">1 Billion</div>
+                <div class="text-[10px] text-neutral-500 font-bold uppercase">Total Supply</div>
             </div>
-            <div class="bg-neutral-950 border border-neutral-900 p-6 rounded-2xl">
-                <div class="text-amber-400 font-black text-2xl mb-3">02</div>
-                <h4 class="text-white font-bold text-md mb-2">Secure Some SOL</h4>
-                <p class="text-neutral-400 text-xs leading-relaxed">Purchase Solana (SOL) on an exchange and transfer it directly to your newly created wallet address.</p>
+            <div class="bg-neutral-950 border border-neutral-900 p-4 rounded-xl">
+                <div class="text-xl font-black text-amber-400">0%</div>
+                <div class="text-[10px] text-neutral-500 font-bold uppercase">Transaction Tax</div>
             </div>
-            <div class="bg-neutral-950 border border-neutral-900 p-6 rounded-2xl">
-                <div class="text-amber-400 font-black text-2xl mb-3">03</div>
-                <h4 class="text-white font-bold text-md mb-2">Connect to COUPE</h4>
-                <p class="text-neutral-400 text-xs leading-relaxed">Click the "Connect Wallet" button at the top of our page and authorize the app linkage cleanly.</p>
+            <div class="bg-neutral-950 border border-neutral-900 p-4 rounded-xl">
+                <div class="text-xl font-black text-amber-400">40%</div>
+                <div class="text-[10px] text-neutral-500 font-bold uppercase">Presale Vault</div>
             </div>
-            <div class="bg-neutral-950 border border-neutral-900 p-6 rounded-2xl">
-                <div class="text-amber-400 font-black text-2xl mb-3">04</div>
-                <h4 class="text-white font-bold text-md mb-2">Swap & Confirm</h4>
-                <p class="text-neutral-400 text-xs leading-relaxed">Enter your desired deposit amount of SOL, hit "Buy $COUPE," and approve the instant blockchain request prompt.</p>
+            <div class="bg-neutral-950 border border-neutral-900 p-4 rounded-xl">
+                <div class="text-xl font-black text-amber-400">30%</div>
+                <div class="text-[10px] text-neutral-500 font-bold uppercase">Staking Pools</div>
             </div>
         </div>
     </section>
 
-    <!-- Tokenomics Breakdown Allocation Section -->
-    <section class="max-w-6xl mx-auto px-4 py-16 border-t border-neutral-900 text-center">
-        <h3 class="text-3xl font-black text-white mb-2">📊 $COUPE Tokenomics</h3>
-        <p class="text-neutral-500 mb-12 max-w-md mx-auto">Engineered for community scaling and structural ecosystem stability.</p>
-        
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
-            <div class="bg-neutral-950 border border-neutral-900 p-6 rounded-2xl">
-                <div class="text-2xl font-black text-amber-400 mb-1">1 Billion</div>
-                <div class="text-xs text-neutral-500 font-bold uppercase tracking-wider">Total Supply</div>
-            </div>
-            <div class="bg-neutral-950 border border-neutral-900 p-6 rounded-2xl">
-                <div class="text-2xl font-black text-amber-400 mb-1">0%</div>
-                <div class="text-xs text-neutral-500 font-bold uppercase tracking-wider">Buy/Sell Tax</div>
-            </div>
-            <div class="bg-neutral-950 border border-neutral-900 p-6 rounded-2xl">
-                <div class="text-2xl font-black text-amber-400 mb-1">40%</div>
-                <div class="text-xs text-neutral-500 font-bold uppercase tracking-wider">Presale Allocation</div>
-            </div>
-            <div class="bg-neutral-950 border border-neutral-900 p-6 rounded-2xl">
-                <div class="text-2xl font-black text-amber-400 mb-1">30%</div>
-                <div class="text-xs text-neutral-500 font-bold uppercase tracking-wider">Staking Rewards</div>
-            </div>
-        </div>
-
-        <div class="max-w-xl mx-auto bg-neutral-950 border border-neutral-900 rounded-3xl p-6 text-left space-y-4 shadow-xl">
-            <h4 class="text-white font-bold text-sm mb-4 tracking-wider uppercase">Supply Metrics Chart</h4>
-            <div>
-                <div class="flex justify-between text-xs mb-1.5 font-semibold text-neutral-400"><span>Public Presale</span><span class="text-amber-400">40%</span></div>
-                <div class="w-full bg-neutral-900 h-2 rounded-full overflow-hidden"><div class="bg-amber-400 h-full w-[40%]"></div></div>
-            </div>
-            <div>
-                <div class="flex justify-between text-xs mb-1.5 font-semibold text-neutral-400"><span>Ecosystem Staking Vault</span><span class="text-yellow-500">30%</span></div>
-                <div class="w-full bg-neutral-900 h-2 rounded-full overflow-hidden"><div class="bg-yellow-500 h-full w-[30%]"></div></div>
-            </div>
-            <div>
-                <div class="flex justify-between text-xs mb-1.5 font-semibold text-neutral-400"><span>Liquidity Pools (DEX)</span><span class="text-orange-500">15%</span></div>
-                <div class="w-full bg-neutral-900 h-2 rounded-full overflow-hidden"><div class="bg-orange-500 h-full w-[15%]"></div></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- FAQ Accordion Section -->
-    <section class="max-w-3xl mx-auto px-4 py-16 border-t border-neutral-900">
-        <h3 class="text-3xl font-black text-white text-center mb-8">💬 Frequently Asked Questions</h3>
-        <div class="space-y-4">
-            <details class="group bg-neutral-950 border border-neutral-900 rounded-xl p-4 cursor-pointer">
-                <summary class="flex justify-between items-center font-bold text-white text-sm list-none">
-                    <span>What is $COUPE?</span>
-                    <span class="text-amber-400 transition-transform group-open:rotate-180">▼</span>
-                </summary>
-                <p class="text-neutral-400 text-xs mt-3 leading-relaxed">COUPE is a community-driven cultural token launching on the Solana network, combining high viral speed with long-term ecosystem rewards.</p>
-            </details>
-        </div>
-    </section>
-
-    <!-- Footer Community Vision -->
-    <footer class="bg-neutral-950 border-t border-neutral-900 text-center py-12 px-4">
-        <div class="flex justify-center gap-6 mb-4 text-xs">
-            <a href="#" id="x-link-footer" target="_blank" class="text-neutral-500 hover:text-amber-400 transition-colors">X (Twitter)</a>
-            <a href="https://t.me/COUPEcoin" target="_blank" class="text-neutral-500 hover:text-amber-400 transition-colors">Telegram</a>
-            <a href="https://discord.gg/T6sbCpFWk" target="_blank" class="text-neutral-500 hover:text-amber-400 transition-colors">Discord</a>
-        </div>
-        <p class="text-white font-bold mb-2">COUPE: Own the Culture. Build the Future.</p>
-        <p class="text-neutral-500 text-xs max-w-md mx-auto">Built on Solana's lightning-fast infrastructure for long-term sustainability.</p>
+    <!-- Footer Area -->
+    <footer class="bg-neutral-950 border-t border-neutral-900 text-center py-8 text-xs text-neutral-500">
+        <p class="font-bold text-neutral-400 mb-1">COUPE Ecosystem Layout Portal</p>
+        <p>© 2026 COUPE Labs. All rights reserved.</p>
     </footer>
 
-    <!-- Web3 Core Script Architecture Engine -->
+    <!-- Core App Dashboard Engine Script -->
     <script>
         let userWalletAddress = null;
-        
-        // 🚨 SET TO null WHILE WALLET IS STILL BEING PREPARED. 
-        // Swap null out for a string address (e.g., "HN7x...9uPq") when you're ready to go live!
         const TREASURY_WALLET = null; 
         const rate = 10000000;
 
-        // Mathematical Multiplier
-        const solInput = document.getElementById('solInput');
-        const coupeOutput = document.getElementById('coupeOutput');
-
-        solInput.addEventListener('input', (e) => {
-            const solValue = parseFloat(e.target.value);
-            if (!isNaN(solValue) && solValue >= 0) {
-                coupeOutput.value = (solValue * rate).toLocaleString();
-            } else {
-                coupeOutput.value = '0';
-            }
+        // --- DASHBOARD & LOCAL MEMORY ENGINE ---
+        window.addEventListener('DOMContentLoaded', () => {
+            initializeUserSession();
+            setupMathCalculator();
+            startTimer();
         });
 
-        // Countdown Timer Engine
-        let targetDate = new Date();
-        targetDate.setDate(targetDate.getDate() + 3);
-
-        function updateCountdown() {
-            const now = new Date().getTime();
-            const difference = targetDate - now;
-            const d = Math.floor(difference / (1000 * 60 * 60 * 24));
-            const h = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const m = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-            const s = Math.floor((difference % (1000 * 60)) / 1000);
-            document.getElementById('days').innerText = d < 10 ? '0' + d : d;
-            document.getElementById('hours').innerText = h < 10 ? '0' + h : h;
-            document.getElementById('minutes').innerText = m < 10 ? '0' + m : m;
-            document.getElementById('seconds').innerText = s < 10 ? '0' + s : s;
+        function initializeUserSession() {
+            let username = localStorage.getItem('coupe_username');
+            
+            if (!username) {
+                document.getElementById('registrationGate').classList.remove('hidden');
+            } else {
+                displayDashboardData(username);
+            }
         }
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
 
-        // --- WEB3 HANDLERS ---
+        function handleRegistration(event) {
+            event.preventDefault();
+            const inputName = document.getElementById('regUsername').value.trim();
+            if (inputName) {
+                localStorage.setItem('coupe_username', inputName);
+                
+                // Set default allocation balance to 5,000 for new signups
+                if(!localStorage.getItem('coupe_balance')) {
+                    localStorage.setItem('coupe_balance', '5000');
+                }
+                if(!localStorage.getItem('coupe_invites')) {
+                    localStorage.setItem('coupe_invites', '0');
+                }
+                
+                document.getElementById('registrationGate').classList.add('hidden');
+                displayDashboardData(inputName);
+            }
+        }
+
+        function displayDashboardData(username) {
+            document.getElementById('dashGreeting').innerText = username;
+            
+            const savedBalance = localStorage.getItem('coupe_balance') || '0';
+            document.getElementById('allocatedCoinBalance').innerText = parseInt(savedBalance).toLocaleString();
+            
+            const savedInvites = localStorage.getItem('coupe_invites') || '0';
+            document.getElementById('refCount').innerText = savedInvites;
+            
+            const absoluteOrigin = window.location.origin + window.location.pathname;
+            const uniqueInviteLink = `${absoluteOrigin}?ref=${username.toLowerCase()}`;
+            document.getElementById('inviteLinkInput').value = uniqueInviteLink;
+        }
+
+        function copyInviteLink() {
+            const copyText = document.getElementById('inviteLinkInput');
+            copyText.select();
+            copyText.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(copyText.value);
+            alert("✨ Invite link copied successfully!");
+        }
+
+        // --- CLIENT SIDE TESTING CONSOLE FUNCTIONS ---
+        function adminUpdateBalance() {
+            const newBal = document.getElementById('adminBalanceInput').value;
+            if (newBal !== "" && parseInt(newBal) >= 0) {
+                localStorage.setItem('coupe_balance', newBal);
+                let currentUsername = localStorage.getItem('coupe_username') || "Holder";
+                displayDashboardData(currentUsername);
+                alert(`💵 Balance updated locally to ${parseInt(newBal).toLocaleString()} $COUPE!`);
+            } else {
+                alert("Please input a valid balance number.");
+            }
+        }
+
+        function adminAddInvites() {
+            let currentInvites = parseInt(localStorage.getItem('coupe_invites') || '0');
+            currentInvites += 1;
+            localStorage.setItem('coupe_invites', currentInvites.toString());
+            let currentUsername = localStorage.getItem('coupe_username') || "Holder";
+            displayDashboardData(currentUsername);
+        }
+
+        function adminResetProfile() {
+            localStorage.removeItem('coupe_username');
+            localStorage.removeItem('coupe_balance');
+            localStorage.removeItem('coupe_invites');
+            alert("Clear Success! Reloading the presentation viewport...");
+            window.location.reload();
+        }
+
+        // --- MATH CALCULATOR ---
+        function setupMathCalculator() {
+            const solInput = document.getElementById('solInput');
+            const coupeOutput = document.getElementById('coupeOutput');
+
+            solInput.addEventListener('input', (e) => {
+                const solValue = parseFloat(e.target.value);
+                if (!isNaN(solValue) && solValue >= 0) {
+                    coupeOutput.value = (solValue * rate).toLocaleString();
+                } else {
+                    coupeOutput.value = '0';
+                }
+            });
+        }
+
+        // --- COUNTDOWN SYSTEM ---
+        function startTimer() {
+            let targetDate = new Date();
+            targetDate.setDate(targetDate.getDate() + 3);
+
+            function updateCountdown() {
+                const now = new Date().getTime();
+                const difference = targetDate - now;
+                const d = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const h = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const m = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                const s = Math.floor((difference % (1000 * 60)) / 1000);
+                
+                document.getElementById('days').innerText = d < 10 ? '0' + d : d;
+                document.getElementById('hours').innerText = h < 10 ? '0' + h : h;
+                document.getElementById('minutes').innerText = m < 10 ? '0' + m : m;
+                document.getElementById('seconds').innerText = s < 10 ? '0' + s : s;
+            }
+            setInterval(updateCountdown, 1000);
+            updateCountdown();
+        }
+
+        // --- WEB3 PROVIDER ---
         function getProvider() {
             if ('solana' in window) {
                 const provider = window.solana;
-                if (provider.isPhantom) {
-                    return provider;
-                }
+                if (provider.isPhantom) return provider;
             }
             return null;
         }
@@ -290,65 +383,23 @@
                 try {
                     const response = await provider.connect();
                     userWalletAddress = response.publicKey.toString();
-                    
                     const shortAddress = userWalletAddress.slice(0, 4) + "..." + userWalletAddress.slice(-4);
+                    
                     document.getElementById('connectBtn').innerText = shortAddress;
-                    document.getElementById('connectBtn').classList.replace('bg-gradient-to-r', 'bg-neutral-900');
-                    document.getElementById('connectBtn').classList.add('text-amber-400', 'border', 'border-neutral-800');
-                    console.log("Wallet Connected: ", userWalletAddress);
+                    document.getElementById('connectBtn').className = "bg-neutral-900 text-amber-400 border border-neutral-800 px-6 py-2 rounded-full font-bold text-sm cursor-pointer shadow-lg";
                 } catch (err) {
-                    alert("Connection request cancelled.");
+                    alert("Wallet authorization rejected.");
                 }
             } else {
-                alert("Solana wallet extension not detected! Please open this page inside Phantom App or install the extension.");
+                alert("Solana wallet extension not found. Opening Phantom install window...");
                 window.open("https://phantom.app/", "_blank");
             }
         }
 
-        async function executePresaleTransaction() {
-            // Check if address is null first to give a beautiful upcoming alert
+        function executePresaleTransaction() {
             if (TREASURY_WALLET === null) {
-                alert("🚀 COUPE Presale Launching Soon! The purchase portal will open as soon as our official network pools go live. Stay tuned on Telegram/X!");
+                alert("🚀 COUPE Presale Pools Coming Soon! The transfer window opens as soon as the smart contract is public. Your pre-allocated balances are completely secure.");
                 return;
-            }
-
-            if (!userWalletAddress) {
-                alert("Please connect your wallet using the button at the top right first!");
-                return;
-            }
-
-            const provider = getProvider();
-            const solAmountValue = parseFloat(solInput.value);
-
-            if (isNaN(solAmountValue) || solAmountValue <= 0) {
-                alert("Please enter a valid amount of SOL.");
-                return;
-            }
-
-            try {
-                const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('mainnet-beta'), 'confirmed');
-                const fromPubkey = new solanaWeb3.PublicKey(userWalletAddress);
-                const toPubkey = new solanaWeb3.PublicKey(TREASURY_WALLET);
-                const lamports = solAmountValue * solanaWeb3.LAMPORTS_PER_SOL;
-
-                const transaction = new solanaWeb3.Transaction().add(
-                    solanaWeb3.SystemProgram.transfer({
-                        fromPubkey: fromPubkey,
-                        toPubkey: toPubkey,
-                        lamports: lamports,
-                    })
-                );
-
-                let { blockhash } = await connection.getLatestBlockhash();
-                transaction.recentBlockhash = blockhash;
-                transaction.feePayer = fromPubkey;
-
-                alert(`Please sign the wallet transaction window to buy ${solAmountValue} SOL worth of $COUPE.`);
-                const { signature } = await provider.signAndSendTransaction(transaction);
-                alert(`Transaction Sent! Tx: ${signature}`);
-            } catch (error) {
-                console.error("Transaction Error: ", error);
-                alert("Transaction cancelled or failed.");
             }
         }
     </script>
