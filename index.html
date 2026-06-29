@@ -3,17 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coupe Coin - The Ultimate Meme Token</title>
+    <title>Coupe Coin ($COUPE) | Official Presale</title>
+    <!-- We are pulling in Tailwind CSS via a fast link for zero setup -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
-<body style="background-color: #1a1a1a; color: white; font-family: sans-serif; text-align: center; padding-top: 50px;">
+<body class="bg-neutral-950 text-white font-sans antialiased selection:bg-orange-500 selection:text-white">
 
-    <h1>🏎️ Welcome to Coupe Coin ($COUPE) 🏎️</h1>
-    <p>The fastest meme coin on the blockchain. Fast cars, fast gains.</p>
-    
-    <hr style="width: 50%; margin: 30px auto; border-color: #333;">
-    
-    <h2>Presale Coming Soon!</h2>
-    <p>Get your wallets ready.</p>
+    <!-- Top Navigation Bar -->
+    <nav class="flex items-center justify-between px-6 py-4 max-w-6xl mx-auto border-b border-neutral-800">
+        <div class="flex items-center gap-2">
+            <span class="text-2xl">🏎️</span>
+            <span class="font-black text-xl tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-500">COUPE COIN</span>
+        </div>
+        <!-- This is a placeholder for your wallet connect button -->
+        <button onclick="alert('Wallet connection coming up next!')" class="bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 px-5 py-2 rounded-full font-bold shadow-lg shadow-orange-500/20 transition-all text-sm active:scale-95 cursor-pointer">
+            Connect Wallet
+        </button>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="max-w-4xl mx-auto px-4 pt-16 pb-24 text-center">
+        <!-- Hero Taglines -->
+        <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-4">
+            The Fastest Meme Coin <br>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-red-500 to-pink-500">On The Blockchain.</span>
+        </h1>
+        <p class="text-neutral-400 text-lg md:text-xl max-w-xl mx-auto mb-12">
+            Fast cars, hyper-speed transactions, and high-octane community energy. Buckle up or get left in the dust.
+        </p>
+
+        <!-- Dynamic Presale Dashboard Card Box -->
+        <div class="bg-neutral-900 border border-neutral-800 rounded-3xl p-6 md:p-8 max-w-md mx-auto shadow-2xl text-left relative overflow-hidden">
+            <!-- Glow background element -->
+            <div class="absolute top-0 right-0 -mt-12 -mr-12 w-32 h-32 bg-orange-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="flex justify-between items-center mb-6">
+                <span class="bg-orange-500/10 text-orange-500 border border-orange-500/20 px-3 py-1 rounded-full text-xs font-bold tracking-wide uppercase">Presale Live</span>
+                <span class="text-neutral-400 text-sm">1 $ETH = 1,000,000 $COUPE</span>
+            </div>
+
+            <!-- Custom Progress Bar Placeholder -->
+            <div class="mb-6">
+                <div class="flex justify-between text-xs mb-2">
+                    <span class="text-neutral-400">Raised: <strong class="text-white">12.5 / 50 ETH</strong></span>
+                    <span class="text-orange-400 font-bold">25% Complete</span>
+                </div>
+                <div class="w-full bg-neutral-800 h-3 rounded-full overflow-hidden">
+                    <div class="bg-gradient-to-r from-orange-500 to-red-500 h-full rounded-full" style="width: 25%"></div>
+                </div>
+            </div>
+
+            <!-- Buying Form Input Elements -->
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-2">You Pay</label>
+                    <div class="relative">
+                        <input type="number" placeholder="0.1" class="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 text-white font-bold focus:outline-none focus:border-orange-500 transition-colors">
+                        <span class="absolute right-4 top-3.5 font-bold text-sm text-neutral-400">ETH</span>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-2">You Receive</label>
+                    <div class="relative">
+                        <input type="number" placeholder="100,000" disabled class="w-full bg-neutral-950/50 border border-neutral-800 rounded-xl px-4 py-3 text-neutral-500 font-bold cursor-not-allowed">
+                        <span class="absolute right-4 top-3.5 font-bold text-sm text-neutral-500">COUPE</span>
+                    </div>
+                </div>
+
+                <!-- Buy Action Button -->
+                <button onclick="alert('Wallet connection required to purchase.')" class="w-full bg-white hover:bg-neutral-200 text-black py-4 rounded-xl font-bold transition-all shadow-lg text-md mt-2 active:scale-98 cursor-pointer">
+                    Buy $COUPE Tokens
+                </button>
+            </div>
+        </div>
+    </main>
 
 </body>
 </html>
