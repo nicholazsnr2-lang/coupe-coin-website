@@ -26,7 +26,6 @@
 
         <div class="flex items-center gap-4">
             <button id="navActionBtn" onclick="startOnboarding()" class="text-xs bg-amber-500 font-bold text-black px-4 py-2 rounded-xl hover:bg-amber-400 transition-all">Enter Dashboard</button>
-            <button onclick="changePage('admin-view')" class="text-neutral-600 hover:text-red-500 transition-colors" title="Admin Settings">&#9881;</button>
         </div>
     </header>
 
@@ -97,15 +96,15 @@
             <div class="space-y-3 text-xs">
                 <div>
                     <label class="block text-neutral-500 mb-1 font-mono uppercase text-[10px]">Full Name</label>
-                    <input type="text" id="regName" placeholder="Nicholas Jacob" class="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-4 py-2.5 text-white focus:outline-none placeholder-neutral-700">
+                    <input type="text" id="regName" placeholder="Nicholas Jacob" class="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-4 py-2.5 text-white focus:outline-none">
                 </div>
                 <div>
                     <label class="block text-neutral-500 mb-1 font-mono uppercase text-[10px]">Username</label>
-                    <input type="text" id="regUser" placeholder="Nicholiz" class="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-4 py-2.5 text-white focus:outline-none placeholder-neutral-700">
+                    <input type="text" id="regUser" placeholder="Nicholiz" class="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-4 py-2.5 text-white focus:outline-none">
                 </div>
                 <div>
                     <label class="block text-neutral-500 mb-1 font-mono uppercase text-[10px]">Email Address</label>
-                    <input type="email" id="regEmail" placeholder="nicholazsnr2@gmail.com" class="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-4 py-2.5 text-white focus:outline-none placeholder-neutral-700">
+                    <input type="email" id="regEmail" placeholder="nicholazsnr2@gmail.com" class="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-4 py-2.5 text-white focus:outline-none">
                 </div>
                 <div class="grid grid-cols-2 gap-2">
                     <div>
@@ -114,7 +113,7 @@
                     </div>
                     <div>
                         <label class="block text-neutral-500 mb-1 font-mono uppercase text-[10px]">Password</label>
-                        <input type="password" id="regPass" placeholder="••••••••" class="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-3 py-2.5 text-white focus:outline-none placeholder-neutral-700">
+                        <input type="password" id="regPass" placeholder="••••••••" class="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-3 py-2.5 text-white focus:outline-none">
                     </div>
                 </div>
             </div>
@@ -129,7 +128,7 @@
                 <p class="text-xs text-neutral-400 px-2 mt-1">We sent a 6-digit code to your email inbox. Enter it below to unlock your dashboard access.</p>
             </div>
             <div>
-                <input type="text" id="verificationCodeInput" placeholder="123456" maxlength="6" class="bg-neutral-900 border border-neutral-800 tracking-[0.5em] text-center font-mono font-black text-xl text-amber-500 w-44 py-2.5 rounded-xl focus:outline-none placeholder-neutral-800">
+                <input type="text" id="verificationCodeInput" placeholder="123456" maxlength="6" class="bg-neutral-900 border border-neutral-800 tracking-[0.5em] text-center font-mono font-black text-xl text-amber-500 w-44 py-2.5 rounded-xl focus:outline-none">
             </div>
             <button onclick="checkEmailCode()" class="w-full bg-amber-500 hover:bg-amber-400 text-black font-black text-xs py-3.5 rounded-xl uppercase font-mono tracking-wider">Confirm Code</button>
         </div>
@@ -142,11 +141,11 @@
             <div class="space-y-3 text-xs">
                 <div>
                     <label class="block text-neutral-500 mb-1 font-mono uppercase text-[10px]">Username or Email</label>
-                    <input type="text" id="loginId" placeholder="nicholazsnr2@gmail.com or Nicholiz" class="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-4 py-2.5 text-white focus:outline-none placeholder-neutral-700">
+                    <input type="text" id="loginId" placeholder="nicholazsnr2@gmail.com or Nicholiz" class="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-4 py-2.5 text-white focus:outline-none">
                 </div>
                 <div>
                     <label class="block text-neutral-500 mb-1 font-mono uppercase text-[10px]">Password</label>
-                    <input type="password" id="loginPass" placeholder="••••••••" class="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-4 py-2.5 text-white focus:outline-none placeholder-neutral-700">
+                    <input type="password" id="loginPass" placeholder="••••••••" class="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-4 py-2.5 text-white focus:outline-none">
                 </div>
             </div>
             <button onclick="submitLogin()" class="w-full bg-amber-500 hover:bg-amber-400 text-black font-black text-xs uppercase tracking-wider py-3.5 rounded-xl transition-all font-mono">Sign In</button>
@@ -156,7 +155,6 @@
     </main>
 
     <main id="view-dashboard-view" class="page-panel hidden max-w-6xl mx-auto px-6 py-8 grid lg:grid-cols-3 gap-8">
-        
         <div class="lg:col-span-2 space-y-6">
             <div class="flex justify-between items-center pb-4 border-b border-neutral-900">
                 <div>
@@ -164,9 +162,7 @@
                     <p class="text-xs text-neutral-500">Complete these social media tasks daily to earn extra points and tokens.</p>
                 </div>
             </div>
-
-            <div id="live-missions-container" class="grid sm:grid-cols-2 gap-4">
-                </div>
+            <div id="live-missions-container" class="grid sm:grid-cols-2 gap-4"></div>
         </div>
 
         <div class="space-y-6">
@@ -178,16 +174,27 @@
                         <p id="user-display-rank" class="text-[10px] text-neutral-400 font-mono tracking-wider">Rank: 🟢 Recruit</p>
                     </div>
                 </div>
-
                 <div class="border-t border-neutral-900 pt-4 space-y-3 font-mono text-xs">
                     <div class="flex justify-between"><span class="text-neutral-500">My Balance:</span><span id="user-display-bal" class="text-amber-500 font-bold">0 $COUPE</span></div>
                     <div class="flex justify-between"><span class="text-neutral-500">My Points:</span><span id="user-display-xp" class="text-neutral-300">0 XP</span></div>
                 </div>
-
                 <div class="pt-2">
                     <button id="walletBtn" onclick="toggleWalletLink()" class="w-full bg-neutral-900 border border-neutral-800 text-xs font-bold text-neutral-300 py-3 rounded-xl hover:border-neutral-700 transition-colors">Link Phantom Wallet</button>
                 </div>
             </div>
+        </div>
+    </main>
+
+    <main id="view-admin-gate" class="page-panel hidden max-w-md mx-auto px-6 py-16">
+        <div class="bg-neutral-950 border border-neutral-900 rounded-3xl p-6 space-y-5">
+            <div class="text-center">
+                <h3 class="text-lg font-black text-white font-mono uppercase tracking-tight">System Login Gate</h3>
+                <p class="text-xs text-neutral-500 mt-1">Enter your master passcode verification string to gain administrative access.</p>
+            </div>
+            <div>
+                <input type="password" id="adminSecurityKeyInput" placeholder="Enter Secure Admin Code" class="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-4 py-3 text-center text-sm font-bold text-white focus:outline-none focus:border-red-500">
+            </div>
+            <button onclick="checkAdminGatePasscode()" class="w-full bg-red-600 hover:bg-red-500 text-white font-black text-xs uppercase tracking-wider py-3.5 rounded-xl font-mono">Unlock Controls</button>
         </div>
     </main>
 
@@ -198,9 +205,7 @@
                     <span class="text-[9px] bg-red-500/10 border border-red-500/20 px-2 py-0.5 rounded text-red-500 font-mono uppercase font-bold tracking-widest">Admin Control Panel</span>
                     <h3 class="text-base font-black text-white font-mono uppercase mt-1">Website Settings Override</h3>
                 </div>
-                <div class="text-xl text-neutral-700 font-mono">🔧</div>
             </div>
-
             <p class="text-xs text-neutral-400 leading-relaxed font-mono">This private screen lets you safely test and change the data shown on the landing page instantly.</p>
 
             <div class="space-y-4 text-xs font-mono">
@@ -215,13 +220,16 @@
             </div>
 
             <div class="pt-2 flex gap-3">
-                <button onclick="changePage('landing-view')" class="bg-neutral-900 border border-neutral-800 text-neutral-400 font-bold px-4 py-3 rounded-xl hover:text-white text-xs">Exit Admin</button>
+                <button onclick="exitAdminPanel()" class="bg-neutral-900 border border-neutral-800 text-neutral-400 font-bold px-4 py-3 rounded-xl hover:text-white text-xs">Exit Admin</button>
                 <button onclick="saveAdminChanges()" class="flex-1 bg-red-600 hover:bg-red-500 text-white font-black uppercase text-xs tracking-wider py-3 rounded-xl transition-all font-mono">Publish Live Changes</button>
             </div>
         </div>
     </main>
 
     <script>
+        // Set your master admin passcode here:
+        const MASTER_ADMIN_CODE = "CoupeAdmin2026"; 
+
         let appState = {
             currentUser: null,
             isWalletLinked: false,
@@ -240,7 +248,33 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             loadWebsiteConfiguration();
+            // Listen for secret link changes in URL bar
+            window.addEventListener('hashchange', checkUrlHashRoute);
+            checkUrlHashRoute();
         });
+
+        // Secret URL router function
+        function checkUrlHashRoute() {
+            if (window.location.hash === "#admin-gate") {
+                changePage('admin-gate');
+            }
+        }
+
+        function checkAdminGatePasscode() {
+            const inputCode = document.getElementById('adminSecurityKeyInput').value;
+            if (inputCode === MASTER_ADMIN_CODE) {
+                alert("Access Granted.");
+                changePage('admin-view');
+            } else {
+                alert("Incorrect administrative password code.");
+                document.getElementById('adminSecurityKeyInput').value = "";
+            }
+        }
+
+        function exitAdminPanel() {
+            window.location.hash = "";
+            changePage('landing-view');
+        }
 
         // Load tasks and data dynamically
         function loadWebsiteConfiguration() {
@@ -266,14 +300,12 @@
                 });
         }
 
-        // Change Viewpages
         function changePage(pageId) {
             document.querySelectorAll('.page-panel').forEach(p => p.classList.add('hidden'));
             document.getElementById(`view-${pageId}`).classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Keep numbers synced everywhere on the screen
         function updateWebsiteUI() {
             const m = appState.metrics;
             const progressPercent = Math.min(((m.raisedUsd / m.targetUsd) * 100), 100).toFixed(1);
@@ -286,10 +318,6 @@
 
             if(appState.currentUser) {
                 document.getElementById('navActionBtn').innerText = "@" + appState.currentUser;
-                document.getElementById('user-display-name').innerText = appState.currentUser;
-                document.getElementById('user-display-bal').innerText = appState.balanceTokens.toLocaleString() + " $COUPE";
-                document.getElementById('user-display-xp').innerText = appState.userXp + " XP";
-                document.getElementById('user-avatar').innerText = appState.currentUser.slice(0,2).toUpperCase();
             }
         }
 
@@ -308,7 +336,6 @@
             document.getElementById('panel-login-step').classList.toggle('hidden', stepName !== 'login');
         }
 
-        // Step 1: Submit signup form fields
         function submitRegistration() {
             const n = document.getElementById('regName').value.trim();
             const u = document.getElementById('regUser').value.trim();
@@ -325,7 +352,6 @@
             switchAuthScreen('verify');
         }
 
-        // Step 2: Validate Email Verification Code Gate
         function checkEmailCode() {
             const codeInput = document.getElementById('verificationCodeInput').value.trim();
             if(codeInput.length < 5) {
@@ -341,7 +367,6 @@
             changePage('dashboard-view');
         }
 
-        // Step 3: Login process
         function submitLogin() {
             const id = document.getElementById('loginId').value.trim();
             const pass = document.getElementById('loginPass').value;
@@ -356,7 +381,6 @@
             changePage('dashboard-view');
         }
 
-        // Load tasks onto the dashboard card elements
         function loadMissions(missions) {
             const targetBox = document.getElementById('live-missions-container');
             targetBox.innerHTML = "";
@@ -413,7 +437,7 @@
             const btn = document.getElementById('walletBtn');
             if(!appState.isWalletLinked) {
                 appState.isWalletLinked = true;
-                btn.innerText = "Linked: Sol6x...vR7sT";
+                btn.innerText = "Connected: Sol6x...vR7sT";
                 btn.className = "w-full bg-neutral-900 border border-neutral-800 text-green-400 px-4 py-3 rounded-xl font-mono text-xs";
             } else {
                 appState.isWalletLinked = false;
@@ -422,7 +446,6 @@
             }
         }
 
-        // Admin Save Changes button
         function saveAdminChanges() {
             const raisedVal = parseInt(document.getElementById('adminInputRaised').value || 0);
             const holdersVal = parseInt(document.getElementById('adminInputHolders').value || 0);
@@ -430,9 +453,9 @@
             appState.metrics.raisedUsd = raisedVal;
             appState.metrics.holdersCount = holdersVal;
 
-            alert("Changes saved locally! Heading back to the landing page.");
+            alert("Changes saved!");
             updateWebsiteUI();
-            changePage('landing-view');
+            exitAdminPanel();
         }
     </script>
 </body>
